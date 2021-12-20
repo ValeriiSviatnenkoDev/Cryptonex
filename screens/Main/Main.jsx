@@ -94,21 +94,15 @@ function Main() {
         setFonts(true);
     }
 
+    socket.on('UpdateCurrency', (arg) => {
+        setCrypt(arg.data);
+    })
+
     useEffect(() => {
         Dimensions.addEventListener('change', ({ window: { width, height } }) => {
             if (height > width) {
                 ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
             }
-        })
-
-        socket.on('UpdateCurrency', (arg) => {
-            setCrypt(arg.data);
-        })
-
-        socket.on('ConsoleUpdate', (arg) => {
-            console.log('====================================');
-            console.log(arg);
-            console.log('====================================');
         })
 
         fontsLoad();

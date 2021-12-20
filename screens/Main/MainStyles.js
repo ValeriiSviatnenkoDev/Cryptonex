@@ -1,4 +1,12 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+function handlerHeight(arg) {
+    if(arg > 690) {
+        return (arg * 0.9) + 20;
+    }
+
+    return (arg * 0.9);
+}
 
 const MainStyles = StyleSheet.create({
     mainContainer: {
@@ -11,8 +19,9 @@ const MainStyles = StyleSheet.create({
     containerContent: {
         marginTop: 80,
         marginBottom: 15,
-        width: 370,
-        height: 650,
+
+        width: Dimensions.get('window').width - 25,
+        height: handlerHeight(Dimensions.get('window').height),
 
         backgroundColor: '#161616',
         borderRadius: 28,
@@ -23,13 +32,13 @@ const MainStyles = StyleSheet.create({
         marginTop: 150,
         justifyContent: "center",
         alignItems: "center",
-        
+
         backgroundColor: "rgba(255, 255, 255, 0)",
     },
 
     chartModalView: {
-        width: 400,
-        height: 600,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height - 120,
         backgroundColor: "#131313",
         borderRadius: 28,
 
@@ -46,12 +55,12 @@ const MainStyles = StyleSheet.create({
     modalContent: {
         padding: 5,
 
-        width: 350,
-        height: 550,
+        width: Dimensions.get('window').width - 50,
+        height: Dimensions.get('window').height - 150,
 
         flexDirection: 'column',
         alignItems: 'center'
-    },  
+    },
 
     modalControlIcon: {
         marginTop: 10,
@@ -84,7 +93,7 @@ const MainStyles = StyleSheet.create({
     },
 
     buttonControl: {
-        width: 40, 
+        width: 40,
         height: 40,
         backgroundColor: '#49beb7',
         borderRadius: 15,
@@ -94,7 +103,7 @@ const MainStyles = StyleSheet.create({
     },
 
     buttonControlActive: {
-        width: 40, 
+        width: 40,
         height: 40,
         backgroundColor: '#389c96',
         borderRadius: 15,
@@ -109,12 +118,12 @@ const MainStyles = StyleSheet.create({
     },
 
     modalInfo: {
-        width: 340,
+        width: Dimensions.get('window').width - 60,
         height: 300,
         backgroundColor: '#191919',
         borderRadius: 17,
         alignItems: 'center'
-    },  
+    },
 
     modalInfoText: {
         color: 'white'
@@ -123,7 +132,7 @@ const MainStyles = StyleSheet.create({
     currencyInfo: {
         marginTop: 15,
 
-        width: 310,
+        width: Dimensions.get('window').width - 90,
         height: 60,
         backgroundColor: '#212121',
         borderRadius: 15,
@@ -135,7 +144,7 @@ const MainStyles = StyleSheet.create({
     },
 
     containerNavigation: {
-        width: 370,
+        width: Dimensions.get('window').width,
         height: 90,
 
         padding: 15,
@@ -144,8 +153,8 @@ const MainStyles = StyleSheet.create({
         borderRadius: 20,
 
         flexDirection: "row",
-        justifyContent: 'space-between',
-        
+        justifyContent: "space-around",
+
     }
 })
 
