@@ -6,7 +6,7 @@ const FormStyles = StyleSheet.create({
         marginBottom: 20,
         width: 360,
         height: 70,
-        aspectRatio: 8
+        aspectRatio: 5
     },
 
     inputData: {
@@ -20,14 +20,14 @@ const FormStyles = StyleSheet.create({
         borderColor: '#389c96',
         color: 'white',
 
-        fontFamily: 'SanFrancisco-Regular'
+        fontFamily: 'SanFrancisco-Medium'
     },
 
     buttonLogin: {
         marginTop: 25,
-
+        marginLeft: 55,
         width: 130,
-        height: 30,
+        height: 35,
 
         backgroundColor: '#389c96',
 
@@ -44,7 +44,7 @@ const FormStyles = StyleSheet.create({
         letterSpacing: 0.5,
         color: "rgba(255, 255, 255, 0.4)",
         fontSize: 17,
-        fontFamily: 'SanFrancisco-Regular',
+        fontFamily: 'SanFrancisco-Medium',
         textAlign: "center"
     },
 
@@ -52,7 +52,7 @@ const FormStyles = StyleSheet.create({
         marginTop: 30,
         marginBottom: 15,
         color: 'rgba(255, 255, 255, 0.7)',
-        fontFamily: 'SanFrancisco-Regular'
+        fontFamily: 'SanFrancisco-Medium'
     },
 
     buttonBack: {
@@ -69,13 +69,13 @@ const FormStyles = StyleSheet.create({
 
     textButtonLogin: {
         color: '#1a1a1a',
-        fontFamily: 'SanFrancisco-Regular',
+        fontFamily: 'SanFrancisco-Medium',
         fontSize: 16
     },
 
     textButtonBack: {
         color: 'white',
-        fontFamily: 'SanFrancisco-Regular',
+        fontFamily: 'SanFrancisco-Medium',
         fontSize: 12
     },
 })

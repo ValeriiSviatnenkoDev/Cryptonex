@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, TouchableHighlight, Text, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 
@@ -16,6 +18,8 @@ import { StartContext } from './startContext.js';
 let customFonts = {
     'SanFrancisco-Regular': require('../assets/fonts/SanFrancisco/SanFrancisco-Regular.ttf'),
     'SanFrancisco-Medium': require('../assets/fonts/SanFrancisco/SanFrancisco-Medium.ttf'),
+    'SanFrancisco-Semibold': require('../assets/fonts/SanFrancisco/SanFrancisco-Semibold.ttf'),
+    'SanFrancisco-Bold': require('../assets/fonts/SanFrancisco/SanFrancisco-Bold.ttf'),
 }
 
 function StartScreen() {
@@ -26,6 +30,8 @@ function StartScreen() {
         await Font.loadAsync(customFonts);
         setFonts(true);
     }
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         fontsLoad();
@@ -38,15 +44,15 @@ function StartScreen() {
             <View style={StartScreenStyles.mainContainer}>
                 <View style={StartScreenStyles.containerContent}>
                     <Image style={StartScreenStyles.conatinerImage} source={require('../assets/image/Logo.png')} />
-                    <Text style={StartScreenStyles.titleText}>Начните формировать свой криптовалютный портфель</Text>
-                    <Text style={StartScreenStyles.titleText}>Cryptonex — самая удобная площадка для купли и продажи криптовалюты. Зарегистрируйтесь и начните прямо сегодня.</Text>
+                    <Text style={StartScreenStyles.titleText}>Твой шанс изменить своё будущее, не открывай зонт, лучше лови крипту!</Text>
+                    <Text style={StartScreenStyles.titleText}>Cryptocloud — добывай столько крипты, сколько падает капель во время дождя!</Text>
                     <TouchableHighlight style={StartScreenStyles.buttonSignIn} onPress={() => { setShowSignIn(true); }}>
                         <Text style={StartScreenStyles.signInText}>Войти</Text>
                     </TouchableHighlight>
                     <TouchableHighlight style={StartScreenStyles.buttonSignUp} onPress={() => { setShowSignUp(true) }}>
                         <Text style={StartScreenStyles.signUpText}>Создать аккаунт</Text>
                     </TouchableHighlight>
-                    <TouchableHighlight style={StartScreenStyles.buttonSignGoogle} onPress={() => { setShowSignInGoogle(true) }}>
+                    <TouchableHighlight style={StartScreenStyles.buttonSignGoogle} onPress={() => { setShowSignInGoogle(true); navigation.navigate('Main') }}>
                         <>
                             <Text style={StartScreenStyles.signInGoogle}>Войти с <Image style={StartScreenStyles.imageGoogle} source={require('../assets/image/GoogleImage.png')} /></Text>
                         </>
@@ -54,7 +60,7 @@ function StartScreen() {
                     <Text style={StartScreenStyles.companyYear}>Cryptonex 2021</Text>
                     {
                         showSignIn ? <AuthAccount /> : null
-                    }
+                    }   
                     {
                         showSignUp ? <RegisterAccount /> : null
                     }

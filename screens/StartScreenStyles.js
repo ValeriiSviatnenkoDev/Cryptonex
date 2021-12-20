@@ -53,7 +53,7 @@ const StartScreenStyles = StyleSheet.create({
         marginBottom: 20,
         width: 360,
         height: 70,
-        aspectRatio: 8
+        aspectRatio: 5
     },
 
     signInText: {

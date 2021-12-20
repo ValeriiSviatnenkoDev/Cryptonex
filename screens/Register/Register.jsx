@@ -11,8 +11,8 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 /* Styles */
-import ErrorStyles from './errorStyle..js';
-import RegisterStyles from './registerStyles.js';
+import ErrorStyles from './ErrorStyle.js';
+import RegisterStyles from './RegisterStyles.js';
 
 /* Context */
 import { StartContext, StartProvider } from '../startContext.js';
@@ -21,6 +21,8 @@ import { StartContext, StartProvider } from '../startContext.js';
 let customFonts = {
     'SanFrancisco-Regular': require('../../assets/fonts/SanFrancisco/SanFrancisco-Regular.ttf'),
     'SanFrancisco-Medium': require('../../assets/fonts/SanFrancisco/SanFrancisco-Medium.ttf'),
+    'SanFrancisco-Semibold': require('../../assets/fonts/SanFrancisco/SanFrancisco-Semibold.ttf'),
+    'SanFrancisco-Bold': require('../../assets/fonts/SanFrancisco/SanFrancisco-Bold.ttf'),
 }
 
 function RegisterAccount() {
@@ -47,6 +49,16 @@ function RegisterAccount() {
             .required('Required')
     });
 
+    async function submitForm(args) {
+        await fetch("http://10.0.2.2:5000/user-register", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(args)
+        });
+
+        return setShowSignUp(false);
+    }
+
     useEffect(() => {
         fontsLoad();
     }, []);
@@ -69,7 +81,7 @@ function RegisterAccount() {
                         <View style={RegisterStyles.modalView}>
                             <Image style={RegisterStyles.conatinerImage} source={require('../../assets/image/Logo.png')} />
                             <Text style={RegisterStyles.titleText}>Начните формировать свой криптовалютный портфель</Text>
-                            <Formik initialValues={{ userName: '', userEmail: '', userPassword: '' }} validationSchema={SignupSchema} onSubmit={values => console.log(values)}>
+                            <Formik initialValues={{ userName: '', userEmail: '', userPassword: '' }} validationSchema={SignupSchema} onSubmit={values => submitForm(values)}>
                                 {({ errors, touched, handleChange, handleSubmit, values }) => (
                                     <View>
                                         <TextInput style={RegisterStyles.containerInput} onChangeText={handleChange('userName')} value={values.userName} placeholder="Логин" placeholderTextColor={'rgba(56, 156, 150, 0.3)'} />

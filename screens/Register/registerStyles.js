@@ -6,7 +6,7 @@ const RegisterStyles = StyleSheet.create({
         marginBottom: 20,
         width: 360,
         height: 70,
-        aspectRatio: 8
+        aspectRatio: 5
     },
 
     containerInput: {
@@ -20,7 +20,7 @@ const RegisterStyles = StyleSheet.create({
         borderColor: '#389c96',
         color: 'white',
 
-        fontFamily: 'SanFrancisco-Medium'
+        fontFamily: 'SanFrancisco-Medium',
     },
 
     titleText: {
