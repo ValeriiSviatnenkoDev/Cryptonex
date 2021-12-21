@@ -47,14 +47,14 @@ function AuthAccount() {
   });
 
   async function submitForm(args) {
-    const response = await fetch("http://10.0.2.2:5000/user-login", {
+    const response = await fetch("https://arcane-thicket-38880.herokuapp.com/user-login", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(args)
     });
 
-    const jsonData = await response.json();
 
+    const jsonData = await response.json();
     await AsyncStorage.setItem('user', JSON.stringify(jsonData));
 
     setError(jsonData.message);

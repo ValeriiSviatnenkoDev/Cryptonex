@@ -50,7 +50,7 @@ function RegisterAccount() {
     });
 
     async function submitForm(args) {
-        await fetch("http://10.0.2.2:5000/user-register", {
+        await fetch("https://arcane-thicket-38880.herokuapp.com/user-register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(args)

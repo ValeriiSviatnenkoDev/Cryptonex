@@ -1,8 +1,8 @@
 /* React */
 import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Image, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 /* Expo */
@@ -31,7 +31,9 @@ let customFonts = {
   'SanFrancisco-Bold': require('./assets/fonts/SanFrancisco/SanFrancisco-Bold.ttf'),
 }
 
+
 function App() {
+
   async function fontsLoad() {
     await Font.loadAsync(customFonts);
   }
@@ -41,21 +43,21 @@ function App() {
   }, []);
 
   return (
-    <StartProvider>
-      <MainProvider>
-        <ProfileProvider>
-          <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: '#1a1a1a' }, headerTintColor: 'white', headerTitleAlign: 'left', headerTitleStyle: { fontSize: 21, fontFamily: 'SanFrancisco-Bold' } }}>
-              <Stack.Screen name="Home" component={StartScreen} options={{ headerTitle: (props) => <LogoCompany {...props} /> }} />
-              <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
-              <Stack.Screen name="News" component={News} options={{ headerShown: false }} />
-              <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-              <Stack.Screen name="Trade" component={Trade} options={{ headerShown: false }} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </ProfileProvider>
-      </MainProvider>
-    </StartProvider>
+      <StartProvider>
+        <MainProvider>
+          <ProfileProvider>
+            <NavigationContainer theme={DefaultTheme}>
+              <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: '#1a1a1a' }, headerTintColor: 'white', headerTitleAlign: 'left', headerTitleStyle: { fontSize: 21, fontFamily: 'SanFrancisco-Bold' } }}>
+                <Stack.Screen name="Home" component={StartScreen} options={{ headerTitle: (props) => <LogoCompany {...props} /> }} />
+                <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
+                <Stack.Screen name="News" component={News} options={{ headerShown: false }} />
+                <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+                <Stack.Screen name="Trade" component={Trade} options={{ headerShown: false }} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ProfileProvider>
+        </MainProvider>
+      </StartProvider>
   );
 }
 

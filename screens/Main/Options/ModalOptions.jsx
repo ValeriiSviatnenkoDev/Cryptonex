@@ -10,6 +10,8 @@ import * as Font from 'expo-font';
 
 /* Styles */
 import OptionsStyles from './OptionsStyles.js';
+
+/* Context */
 import { MainContext } from '../mainContext.js';
 
 /* Fonts */
@@ -22,10 +24,9 @@ let customFonts = {
 
 function Options() {
     const [fonts, setFonts] = useState(false);
-
-    const [switchTheme, setSwitchTheme] = useState(false);
-    const [switchLang, setSwitchLang] = useState(false);
     const [switchColor, setSwitchColor] = useState(false);
+    const [switchLang, setSwitchLang] = useState(false);
+    const [switchTheme, setSwitchTheme] = useState(false);
 
     const { showSettings, setShowSettings } = useContext(MainContext);
 

@@ -68,12 +68,12 @@ function Profile() {
                         :
                         <View style={ProfileStyles.containerContent}>
                             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                <View style={{ width: 140, height: 140, borderWidth: 3, borderColor: '#49beb7', borderRadius: 100, justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
-                                    <Image style={{ width: 100, height: 100 }} source={require('../../assets/image/Avatar.png')} />
+                                <View style={ProfileStyles.profileImageContainer}>
+                                    <Image style={ProfileStyles.profileImage} source={require('../../assets/image/Avatar.png')} />
                                 </View>
-                                <Text style={{ width: 340, height: 40, backgroundColor: '#1a1a1a', color: 'rgba(255, 255, 255, 1)', fontSize: 16, fontFamily: 'SanFrancisco-Semibold', textAlign: 'center', padding: 8, borderRadius: 13, marginTop: 10 }}>{user.user.username}</Text>
-                                <Text style={{ width: 340, height: 40, backgroundColor: '#1a1a1a', color: 'rgba(255, 255, 255, 1)', fontSize: 16, fontFamily: 'SanFrancisco-Semibold', textAlign: 'center', padding: 8, borderRadius: 13, marginTop: 10 }}>{user.user.useremail}</Text>
-                                <Text style={{ width: 340, height: 40, backgroundColor: '#1a1a1a', color: 'rgba(255, 255, 255, 1)', fontSize: 16, fontFamily: 'SanFrancisco-Semibold', textAlign: 'center', padding: 8, borderRadius: 13, marginTop: 10 }} onPress={() => setShowId(prev => !prev)}>{showId ? '* * * * * * * * * * * * * * * * * *' : `${user.user.id}`}</Text>
+                                <Text style={ProfileStyles.profileInfo}>{user.user.username}</Text>
+                                <Text style={ProfileStyles.profileInfo}>{user.user.useremail}</Text>
+                                <Text style={ProfileStyles.profileInfo} onPress={() => setShowId(prev => !prev)}>{showId ? '* * * * * * * * * * * * * * * * * *' : `${user.user.id}`}</Text>
                             </View>
                             <View style={{ width: 340, height: 60, flexDirection: 'row', justifyContent: 'space-around', marginTop: 30, marginBottom: 30 }}>
                                 <TouchableHighlight style={{ width: 55, height: 55, backgroundColor: '#49beb7', justifyContent: 'center', alignItems: 'center', borderRadius: 12 }} onPress={() => { setShowCards(true) }}>

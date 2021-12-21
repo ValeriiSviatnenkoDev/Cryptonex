@@ -1,9 +1,13 @@
+/* React */
 import React, { useContext, useState, useEffect } from 'react';
 import { View, TouchableHighlight, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+/* Expo */
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
+
+import Google from 'expo-google-sign-in';
 
 /* Styles */
 import StartScreenStyles from './StartScreenStyles';
@@ -25,13 +29,21 @@ let customFonts = {
 function StartScreen() {
     const [fonts, setFonts] = useState(false);
     const { showSignIn, showSignUp, setShowSignIn, setShowSignUp, setShowSignInGoogle } = useContext(StartContext);
-    
+
+    const navigation = useNavigation();
+
+    const signInWithGoogle = () => {
+        const config = { 
+            iosClientId: '1092714447173-cu978qu3r0tab4v8vl6l3s2mshgdgqk0.apps.googleusercontent.com',
+            androidClientId: '1092714447173-r5gleu7g0rqn840ndbnhqautmnuug4q1.apps.googleusercontent.com',
+            scopes: ['profile', 'email']
+        }
+    }
+
     async function fontsLoad() {
         await Font.loadAsync(customFonts);
         setFonts(true);
     }
-
-    const navigation = useNavigation();
 
     useEffect(() => {
         fontsLoad();
@@ -54,13 +66,14 @@ function StartScreen() {
                     </TouchableHighlight>
                     <TouchableHighlight style={StartScreenStyles.buttonSignGoogle} onPress={() => { setShowSignInGoogle(true); navigation.navigate('Main') }}>
                         <>
-                            <Text style={StartScreenStyles.signInGoogle}>Войти с <Image style={StartScreenStyles.imageGoogle} source={require('../assets/image/GoogleImage.png')} /></Text>
+                            <Text style={StartScreenStyles.signInGoogle}>Войти с</Text>
+                            <Image style={StartScreenStyles.imageGoogle} source={require('../assets/image/GoogleImage.png')} />
                         </>
                     </TouchableHighlight>
                     <Text style={StartScreenStyles.companyYear}>Cryptonex 2021</Text>
                     {
                         showSignIn ? <AuthAccount /> : null
-                    }   
+                    }
                     {
                         showSignUp ? <RegisterAccount /> : null
                     }

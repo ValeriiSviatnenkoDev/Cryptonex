@@ -83,7 +83,7 @@ function Cards() {
                                     <TouchableHighlight onPress={() => { setReverse(prev => !prev) }}>
                                         {
                                             reverse ?
-                                                <View style={{ width: 320, height: 180, backgroundColor: 'rgba(54, 102, 199, 1)', borderRadius: 23, justifyContent: 'center', marginTop: 10, transform: [{ scaleX: -1 }] }}>
+                                                <View style={{ width: 320, height: 200, backgroundColor: 'rgba(54, 102, 199, 1)', borderRadius: 23, justifyContent: 'center', marginTop: 10, transform: [{ scaleX: -1 }] }}>
                                                     <Image style={{ width: 60, height: 40, marginBottom: 20, marginLeft: 15 }} source={require('../../../assets/image/MasterCard.png')} />
                                                     <Text onPress={() => { setHide(prev => !prev) }} style={hide ? { textAlign: 'center', letterSpacing: 0.4, color: 'rgba(255, 255, 255, 1)', backgroundColor: 'rgba(47, 89, 173, 1)', fontSize: 21, fontFamily: 'SanFrancisco-Semibold', marginTop: 5 } : { textAlign: 'center', letterSpacing: 0.4, color: 'white', backgroundColor: 'rgba(47, 89, 173, 1)', transform: [{ scaleX: -1 }], fontSize: 21, fontFamily: 'SanFrancisco-Semibold', marginTop: 5 }}>{hide ? '***' : `${Math.floor(Math.random() * (999 - 100) + 100)}`}</Text>
                                                 </View>
@@ -93,7 +93,7 @@ function Cards() {
                                                         <Image style={{ width: 60, height: 40, marginLeft: 25 }} source={require('../../../assets/image/MasterCard.png')} />
                                                         <Text style={{ color: 'white', fontSize: 18, fontFamily: 'SanFrancisco-Bold', marginRight: 25 }}>{user.user.userbalance == undefined ? 0 : user.user.userbalance}$</Text>
                                                     </View>
-                                                    <Text style={{ textAlign: 'center', letterSpacing: 0.4, color: 'white', fontSize: 21, fontFamily: 'SanFrancisco-Semibold', marginTop: 5 }}>{cardNum}</Text>
+                                                    <Text style={{ textAlign: 'center', letterSpacing: 0.4, color: 'white', fontSize: 21, fontFamily: 'SanFrancisco-Semibold', marginTop: 5 }}>0000 0000 0000 0001</Text>
                                                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 20 }}>
                                                         <Text style={{ color: 'white', fontSize: 18, fontFamily: 'SanFrancisco-Semibold', marginRight: 30 }}>{date.getMonth() + 1}/{date.getFullYear().toString().slice(2)}</Text>
                                                         <Text style={{ color: 'white', fontSize: 18, fontFamily: 'SanFrancisco-Semibold', marginLeft: 30 }}>{date.getMonth() + 1}/{(date.getFullYear() + 1).toString().slice(2)}</Text>

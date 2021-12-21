@@ -1,12 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-
-function handlerHeight(arg) {
-    if(arg > 690) {
-        return (arg * 0.9) + 20;
-    }
-
-    return (arg * 0.9);
-}
+import { handlerHeight, handlerMarginTop } from '../Style/Utils/handlerFunction.js'
 
 const MainStyles = StyleSheet.create({
     mainContainer: {
@@ -17,11 +10,11 @@ const MainStyles = StyleSheet.create({
     },
 
     containerContent: {
-        marginTop: 80,
+        marginTop: handlerMarginTop(Dimensions.get('window').height),
         marginBottom: 15,
 
         width: Dimensions.get('window').width - 25,
-        height: handlerHeight(Dimensions.get('window').height),
+        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 50) : handlerHeight(Dimensions.get('window').height, 0.9),
 
         backgroundColor: '#161616',
         borderRadius: 28,
@@ -38,7 +31,7 @@ const MainStyles = StyleSheet.create({
 
     chartModalView: {
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height - 120,
+        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 100) : handlerHeight(Dimensions.get('window').height, 0.85),
         backgroundColor: "#131313",
         borderRadius: 28,
 
@@ -56,7 +49,7 @@ const MainStyles = StyleSheet.create({
         padding: 5,
 
         width: Dimensions.get('window').width - 50,
-        height: Dimensions.get('window').height - 150,
+        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 150) : handlerHeight(Dimensions.get('window').height, 0.75),
 
         flexDirection: 'column',
         alignItems: 'center'
@@ -144,8 +137,8 @@ const MainStyles = StyleSheet.create({
     },
 
     containerNavigation: {
-        width: Dimensions.get('window').width,
-        height: 90,
+        width: Dimensions.get('window').width - 25,
+        height: Dimensions.get('window').height > 690 ? 100 : 90,
 
         padding: 15,
 

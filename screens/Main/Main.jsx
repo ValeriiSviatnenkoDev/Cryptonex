@@ -16,7 +16,7 @@ import CurrencyStyles from './CurrencyStyles.js';
 
 /* WS */
 import { io } from 'socket.io-client';
-const socket = io('http://10.0.2.2:5000');
+const socket = io('https://arcane-thicket-38880.herokuapp.com');
 
 /* Modal */
 import Options from './Options/ModalOptions.jsx';
@@ -89,14 +89,15 @@ function Main() {
 
     const navigation = useNavigation();
 
+    
+    socket.on('UpdateCurrency', (arg) => {
+        setCrypt(arg.data);
+    })
+
     async function fontsLoad() {
         await Font.loadAsync(customFonts);
         setFonts(true);
     }
-
-    socket.on('UpdateCurrency', (arg) => {
-        setCrypt(arg.data);
-    })
 
     useEffect(() => {
         Dimensions.addEventListener('change', ({ window: { width, height } }) => {
@@ -106,7 +107,7 @@ function Main() {
         })
 
         fontsLoad();
-    }, []);
+    }, [crypt]);
 
     if (!fonts) {
         return <AppLoading />

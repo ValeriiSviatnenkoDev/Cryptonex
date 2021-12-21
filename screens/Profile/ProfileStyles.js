@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+import { handlerHeight, handlerMarginTop } from '../Style/Utils/handlerFunction.js';
 
 const ProfileStyles = StyleSheet.create({
     mainContainer: {
@@ -9,10 +10,11 @@ const ProfileStyles = StyleSheet.create({
     },
 
     containerContent: {
-        marginTop: 80,
+        marginTop: handlerMarginTop(Dimensions.get('window').height),
         marginBottom: 15,
-        width: 370,
-        height: 650,
+
+        width: Dimensions.get('window').width - 25,
+        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 50) : handlerHeight(Dimensions.get('window').height, 0.9),
 
         backgroundColor: '#161616',
         borderRadius: 28,
@@ -25,13 +27,14 @@ const ProfileStyles = StyleSheet.create({
         marginTop: 100,
         justifyContent: "center",
         alignItems: "center",
-        
+
         backgroundColor: "rgba(255, 255, 255, 0)",
     },
 
     chartModalView: {
-        width: 400,
-        height: 650,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 100) : handlerHeight(Dimensions.get('window').height, 0.85),
+
         backgroundColor: "#131313",
         borderRadius: 28,
 
@@ -48,12 +51,12 @@ const ProfileStyles = StyleSheet.create({
     modalContent: {
         padding: 5,
 
-        width: 350,
-        height: 550,
+        width: Dimensions.get('window').width - 50,
+        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 150) : handlerHeight(Dimensions.get('window').height, 0.75),
 
         flexDirection: 'column',
         alignItems: 'center'
-    },  
+    },
 
     modalControlIcon: {
         marginTop: 10,
@@ -71,8 +74,8 @@ const ProfileStyles = StyleSheet.create({
 
 
     containerNavigation: {
-        width: 370,
-        height: 90,
+        width: Dimensions.get('window').width - 25,
+        height: Dimensions.get('window').height > 690 ? 100 : 90,
 
         padding: 15,
 
@@ -80,7 +83,53 @@ const ProfileStyles = StyleSheet.create({
         borderRadius: 20,
 
         flexDirection: "row",
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
+    },
+
+    profileInfo: {
+        marginTop: 10,
+        padding: 8,
+
+        width: Dimensions.get('window').width - 60,
+        height: 40,
+
+        color: 'rgba(255, 255, 255, 1)',
+        fontSize: 16,
+        fontFamily: 'SanFrancisco-Semibold',
+        textAlign: 'center',
+
+        backgroundColor: '#1a1a1a',
+        borderRadius: 13,
+    },
+
+    profileImage: {
+        width: Dimensions.get('window').height < 690 ? 75 : 100,
+        height: Dimensions.get('window').height < 690 ? 75 : 100
+    },
+
+    profileImageContainer: { 
+        marginTop: 30,
+
+        width: Dimensions.get('window').height < 690 ? 115 : 140,
+        height: Dimensions.get('window').height < 690 ? 115 : 140,
+
+        borderWidth: 3, 
+        borderColor: '#49beb7', 
+        borderRadius: 100, 
+
+        justifyContent: 'center', 
+        alignItems: 'center', 
+    },
+
+    profileButtons: { 
+        marginTop: 30, 
+        marginBottom: 30,
+        
+        width: Dimensions.get('window').width - 60, 
+        height: 60, 
+        
+        flexDirection: 'row', 
+        justifyContent: 'space-around', 
         
     }
 })

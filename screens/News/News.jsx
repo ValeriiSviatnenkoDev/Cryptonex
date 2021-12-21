@@ -76,7 +76,7 @@ export default function News() {
                         :
                         <View style={NewsStyles.containerContent}>
                             <ScrollView style={{ borderRadius: 20 }}>
-                                <Text style={{ marginLeft: 20, fontSize: 30, color: 'rgba(255, 255, 255, 0.9)', fontFamily: 'SanFrancisco-Semibold', textAlign: 'center', width: 320, padding: 10, backgroundColor: 'rgba(73, 190, 183, 0.1)', borderRadius: 20, marginTop: 10, }}>News</Text>
+                                <Text style={NewsStyles.headerText}>News</Text>
                                 {
                                     articles.map(art => (
                                         <TouchableHighlight onPress={() => { setModal(true); setNews(art); }}>

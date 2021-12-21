@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const CurrencyStyles = StyleSheet.create({
     currencyContainer: {
@@ -12,7 +12,7 @@ const CurrencyStyles = StyleSheet.create({
         margin: 9.5 ,
         padding: 10,
 
-        width: 330,
+        width: Dimensions.get('window').width - 70,
         height: 60,
 
         backgroundColor: '#1a1a1a',

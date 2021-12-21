@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+import { handlerHeight } from './Style/Utils/handlerFunction.js';
 
 const StartScreenStyles = StyleSheet.create({
     mainContainer: {
@@ -9,8 +10,8 @@ const StartScreenStyles = StyleSheet.create({
     },
 
     containerContent: {
-        width: 360,
-        height: 640,
+        width: Dimensions.get('window').width - 40,
+        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 50) : Dimensions.get('window').height - 100,
 
         backgroundColor: '#161616',
         borderRadius: 28,
@@ -44,6 +45,7 @@ const StartScreenStyles = StyleSheet.create({
         height: 45,
         backgroundColor: "white",
 
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -69,8 +71,6 @@ const StartScreenStyles = StyleSheet.create({
     },
 
     signInGoogle: {
-        flex: 1,
-
         color: '#161616',
         fontFamily: 'SanFrancisco-Medium',
         fontSize: 21,
@@ -78,7 +78,9 @@ const StartScreenStyles = StyleSheet.create({
 
     imageGoogle: {
         width: 30,
-        height: 30
+        height: 30,
+        marginLeft: 5,
+        marginRight: 5
     },
 
     titleText: {
