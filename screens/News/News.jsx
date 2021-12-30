@@ -1,13 +1,14 @@
 /* React */
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, TouchableHighlight, View, ScrollView, Image, Dimensions } from 'react-native';
+import { ActivityIndicator, Text, TouchableHighlight, View, ScrollView, Image } from 'react-native';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
 import { AntDesign } from '@expo/vector-icons';
 
 /* Styles & Utils */
-import NewsStyles from "./NewsStyles";
+import NewsStyles from "../Style/Styles/News/NewsStyle.js";
+import NewsCard from "../Style/Styles/News/NewsCard.js";
 import { heandlerFontsLoad } from '../Style/Utils/handleLoadFonts.js';
 
 /* Components */
@@ -43,14 +44,18 @@ export default function News() {
     async function uploadNews() {
         setLoading(true);
 
-        const responseNewsNow = await fetch(requests.reqNewsNow);
-        const responseNewsYDay = await fetch(requests.reqNewsYDay);
+        const response = {
+            newsNow: await fetch(requests.reqNewsNow),
+            newsYDAy: await fetch(requests.reqNewsYDay)
+        }
 
-        const _newsNowData = await responseNewsNow.json();
-        const _newsYdayData = await responseNewsYDay.json();
+        const jsonData ={
+            newsNow: await response.newsNow.json(),
+            newsYDay: await response.newsYDAy.json()
+        }
 
-        setArtNow(_newsNowData.articles);
-        setArtYDay(_newsYdayData.articles);
+        setArtNow(jsonData.newsNow.articles);
+        setArtYDay(jsonData.newsYDay.articles);
 
         setLoading(false);
     }
@@ -77,19 +82,19 @@ export default function News() {
                                 <Text style={NewsStyles.headerText}>Новости</Text>
                                 <AntDesign name="reload1" size={28} color="#50cc5c" onPress={() => { uploadNews() }} />
                             </View>
-                            <ScrollView>
+                            <ScrollView showsVerticalScrollIndicator={false}>
                                 <View>
-                                    <View style={{ padding: 10 }}>
-                                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'SanFrancisco-Semibold', paddingTop: 5, paddingBottom: 1 }}>Новости за сегодня</Text>
-                                        <Text style={{ width: 140, color: 'rgba(255, 255, 255, 0.6)', fontSize: 12, fontFamily: 'SanFrancisco-Semibold', paddingTop: 2 }}>Подборка популярных новостей за сегодня</Text>
+                                    <View style={NewsCard.headerNews}>
+                                        <Text style={NewsCard.headerNewsText}>Новости за сегодня</Text>
+                                        <Text style={NewsCard.headerTextTitle}>Подборка популярных новостей за сегодня</Text>
                                     </View>
                                     <ScrollView horizontal={true} decelerationRate={0} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
                                         {
-                                            artNow.map(art => (
-                                                <TouchableHighlight style={{ padding: 10 }} key={art.title} onPress={() => { setModal(true); setNews(art); }}>
-                                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                                        <Image style={{ width: Dimensions.get('window').width - 160, height: 230, marginBottom: 5, borderRadius: 16 }} source={{ uri: art.urlToImage }} />
-                                                        <Text style={NewsStyles.newsHeader}>{art.title.split(' ').length > 4 ? art.title.split(' ').slice(0, 3).join(' ') + '...' : art.title}</Text>
+                                            artNow.map((art, id) => (
+                                                <TouchableHighlight style={NewsCard.newsCard} key={id} onPress={() => { setModal(true); setNews(art); }}>
+                                                    <View style={NewsCard.newsCardContent}>
+                                                        <Image style={NewsCard.newsCardImage} source={{ uri: art.urlToImage }} />
+                                                        <Text style={NewsCard.newsCardText}>{art.title.split(' ').length > 4 ? art.title.split(' ').slice(0, 3).join(' ') + '...' : art.title}</Text>
                                                     </View>
                                                 </TouchableHighlight>
                                             ))
@@ -97,17 +102,17 @@ export default function News() {
                                     </ScrollView>
                                 </View>
                                 <View>
-                                    <View style={{ padding: 10 }}>
-                                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'SanFrancisco-Semibold', paddingTop: 5, paddingBottom: 1 }}>Новости за вчера</Text>
-                                        <Text style={{ width: 140, color: 'rgba(255, 255, 255, 0.6)', fontSize: 12, fontFamily: 'SanFrancisco-Semibold', paddingTop: 2 }}>Подборка популярных новостей за вчера</Text>
+                                    <View style={NewsCard.headerNews}>
+                                        <Text style={NewsCard.headerNewsText}>Новости за вчера</Text>
+                                        <Text style={NewsCard.headerTextTitle}>Подборка популярных новостей за вчера</Text>
                                     </View>
                                     <ScrollView horizontal={true} decelerationRate={0} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
                                         {
-                                            artYDay.map(art => (
-                                                <TouchableHighlight style={{ padding: 10 }} key={art.title} onPress={() => { setModal(true); setNews(art); }}>
-                                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                                        <Image style={{ width: Dimensions.get('window').width - 160, height: 230, marginBottom: 5, borderRadius: 16 }} source={{ uri: art.urlToImage }} />
-                                                        <Text style={NewsStyles.newsHeader}>{art.title.split(' ').length > 4 ? art.title.split(' ').slice(0, 3).join(' ') + '...' : art.title}</Text>
+                                            artYDay.map((art, id) => (
+                                                <TouchableHighlight style={NewsCard.newsCard} key={id} onPress={() => { setModal(true); setNews(art); }}>
+                                                    <View style={NewsCard.newsCardContent}>
+                                                        <Image style={NewsCard.newsCardImage} source={{ uri: art.urlToImage }} />
+                                                        <Text style={NewsCard.newsCardText}>{art.title.split(' ').length > 4 ? art.title.split(' ').slice(0, 3).join(' ') + '...' : art.title}</Text>
                                                     </View>
                                                 </TouchableHighlight>
                                             ))
