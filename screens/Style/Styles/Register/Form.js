@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const RegisterStyles = StyleSheet.create({
+const RegisterForm = StyleSheet.create({
     conatinerImage: {
         marginTop: 20,
         marginBottom: 20,
@@ -17,7 +17,7 @@ const RegisterStyles = StyleSheet.create({
 
         backgroundColor: 'rgba(255, 255, 255, 0)',
         borderBottomWidth: 2,
-        borderColor: '#389c96',
+        borderColor: '#50cc5c',
         color: 'white',
 
         fontFamily: 'SanFrancisco-Medium',
@@ -47,7 +47,7 @@ const RegisterStyles = StyleSheet.create({
         width: 170,
         height: 40,
 
-        backgroundColor: '#389c96',
+        backgroundColor: '#50cc5c',
 
         justifyContent: 'center',
         alignItems: 'center'
@@ -76,26 +76,6 @@ const RegisterStyles = StyleSheet.create({
         fontSize: 12
     },
 
-    centeredView: {
-        marginTop: 1,
-
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        
-        backgroundColor: "#1a1a1a",
-      },
-
-    modalView: {
-        width: 350,
-        height: 650,
-        backgroundColor: "#161616",
-        borderRadius: 28,
-
-        justifyContent: "center",
-        alignItems: "center",
-    },
-
     modalText: {
         padding: 10,
         width: 260,
@@ -107,4 +87,4 @@ const RegisterStyles = StyleSheet.create({
     }
 })
 
-export default RegisterStyles;
+export default RegisterForm;

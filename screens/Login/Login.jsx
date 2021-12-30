@@ -1,50 +1,38 @@
 /* React */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TextInput, TouchableHighlight, View, Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
-import * as Font from 'expo-font';
 
 /* Other */
-import * as Yup from 'yup';
 import { Formik } from 'formik';
 
-/* Style */
-import ErrorStyles from './ErrorStyle.js';
-import LoginStyles from './LoginStyles.js';
-import FormStyles from './FormStyles.js';
+/* Schema */
+import SignInSchema from './SignInSchema.js';
+
+/* Components */
+import LoginError from './components/LoginError.jsx';
+
+/* Style & Utils */
+import LoginStyles from '../Style/Styles/Login/Styles.js';
+import FormStyles from '../Style/Styles/Login/Form.js';
+import { heandlerFontsLoad } from '../Style/Utils/handleLoadFonts.js';
 
 /* Context */
-import { StartContext, StartProvider } from '../startContext.js';
-
-/* Custom Fonts */
-let customFonts = {
-  'SanFrancisco-Regular': require('../../assets/fonts/SanFrancisco/SanFrancisco-Regular.ttf'),
-  'SanFrancisco-Medium': require('../../assets/fonts/SanFrancisco/SanFrancisco-Medium.ttf'),
-  'SanFrancisco-Semibold': require('../../assets/fonts/SanFrancisco/SanFrancisco-Semibold.ttf'),
-  'SanFrancisco-Bold': require('../../assets/fonts/SanFrancisco/SanFrancisco-Bold.ttf'),
-}
+import { StartContext, StartProvider } from '../context/startContext.js';
 
 
-function AuthAccount() {
-  const { showSignIn, setShowSignIn } = useContext(StartContext);
-
+const AuthAccount = (props) => {
+  const [fonts, setFonts] = useState(false);
   const [errorModal, setModal] = useState(false);
   const [errorText, setError] = useState('');
-  const [fonts, setFonts] = useState(false);
+
+  const { showSignIn, setShowSignIn } = useContext(StartContext);
 
   const navigation = useNavigation();
-
-  const SigninSchema = Yup.object().shape({
-    userEmail: Yup.string().email('Введите корректную электронную почту!').required('Required'),
-    userPassword: Yup.string()
-      .min(7, 'Ведённый пароль должен содержать минимум 7 символов!')
-      .max(86, 'Ну слушай, куда ты там погнал, максимум 86 символов!')
-      .required('Required')
-  });
 
   async function submitForm(args) {
     const response = await fetch("https://arcane-thicket-38880.herokuapp.com/user-login", {
@@ -53,34 +41,39 @@ function AuthAccount() {
       body: JSON.stringify(args)
     });
 
-
     const jsonData = await response.json();
-    await AsyncStorage.setItem('user', JSON.stringify(jsonData));
+    switch (jsonData.status) {
+      case false:
+        setError(jsonData.error.message);
+        setModal(true);
+        setTimeout(() => {
+          setModal(false);
+        }, 1500);
+        break;
 
-    setError(jsonData.message);
-    navigation.navigate('Main');
-    return setShowSignIn(false);
+      case true:
+        await AsyncStorage.setItem('user', JSON.stringify(jsonData));
+        navigation.navigate('Main');
+        setShowSignIn(false);
+        break;
+
+      default:
+        setError('Перезагрузите приложение и попробуйте заново!');
+        break;
+    }
   }
 
-  async function fontsLoad() {
-    await Font.loadAsync(customFonts);
-    setFonts(true);
-  }
-
-  fontsLoad();
+  useEffect(async () => {
+    const res = await heandlerFontsLoad();
+    setFonts(res);
+  }, []);
 
   if (!fonts) {
     return <AppLoading />
   } else {
     return (
       <StartProvider>
-        <Modal animationType="fade" transparent={true} visible={errorModal} onRequestClose={() => { setModal(false) }}>
-          <View style={ErrorStyles.errorView}>
-            <View style={ErrorStyles.errorModalView}>
-              <Text style={ErrorStyles.modalText}>{errorText}</Text>
-            </View>
-          </View>
-        </Modal>
+        <LoginError errorModal={errorModal} errorText={errorText} />
 
         <Modal animationType="slide" transparent={true} visible={showSignIn} onRequestClose={() => { setShowSignIn(false) }}>
           <View style={LoginStyles.centeredView}>
@@ -88,18 +81,18 @@ function AuthAccount() {
               <Image style={FormStyles.conatinerImage} source={require('../../assets/image/Logo.png')} />
               <Text style={FormStyles.titleText}>Начните формировать свой криптовалютный портфель</Text>
               <Text style={FormStyles.titleText}>Cryptocloud — самая удобная площадка для купли и продажи криптовалюты. Зарегистрируйтесь и начните прямо сегодня.</Text>
-              <Formik initialValues={{ userEmail: '', userPassword: '' }} validationSchema={SigninSchema} onSubmit={values => submitForm(values)}>
+              <Formik initialValues={{ userEmail: '', userPassword: '' }} validationSchema={SignInSchema} onSubmit={values => submitForm(values)}>
                 {({ errors, handleChange, handleSubmit, values }) => (
                   <View>
-                    <TextInput style={FormStyles.inputData} onChangeText={handleChange('userEmail')} value={values.userEmail} placeholder="Эл. почта" placeholderTextColor={'rgba(56, 156, 150, 0.3)'} />
-                    <TextInput secureTextEntry={true} style={FormStyles.inputData} onChangeText={handleChange('userPassword')} placeholder="Пароль" placeholderTextColor={'rgba(56, 156, 150, 0.3)'} />
+                    <TextInput style={FormStyles.inputData} onChangeText={handleChange('userEmail')} value={values.userEmail} placeholder="Эл. почта" placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
+                    <TextInput secureTextEntry={true} style={FormStyles.inputData} onChangeText={handleChange('userPassword')} placeholder="Пароль" placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
                     <TouchableHighlight style={FormStyles.buttonLogin} onPress={() => {
                       handleSubmit()
                       if (errors.userEmail) {
                         setModal(true);
                         setError('Введите корректную электронную почту!');
                         setTimeout(() => {
-                          setModal(false);
+                          props.setModal(false);
                         }, 1500);
                         return;
                       }

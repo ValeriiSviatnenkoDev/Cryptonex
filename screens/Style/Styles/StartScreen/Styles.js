@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { handlerHeight } from './Style/Utils/handlerFunction.js';
+import { handlerHeight } from '../../Utils/handlerFunction.js';
 
 const StartScreenStyles = StyleSheet.create({
     mainContainer: {
@@ -33,7 +33,7 @@ const StartScreenStyles = StyleSheet.create({
     buttonSignUp: {
         width: 250,
         height: 45,
-        backgroundColor: "#6fcbc6",
+        backgroundColor: "#50cc5c",
 
         justifyContent: 'center',
         alignItems: 'center'
@@ -59,7 +59,7 @@ const StartScreenStyles = StyleSheet.create({
     },
 
     signInText: {
-        color: '#389c96',
+        color: '#50cc5c',
         fontFamily: 'SanFrancisco-Medium',
         fontSize: 21,
     },

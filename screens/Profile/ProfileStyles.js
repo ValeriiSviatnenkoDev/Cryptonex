@@ -19,8 +19,24 @@ const ProfileStyles = StyleSheet.create({
         backgroundColor: '#161616',
         borderRadius: 28,
 
+        justifyContent: 'center',
         alignItems: 'center'
+    },
 
+    headerTitle: {
+        paddingTop: 15,
+        paddingBottom: 15,
+        width: Dimensions.get('window').width - 60,
+
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+
+    headerText: {
+        fontSize: 30, 
+        color: 'rgba(255, 255, 255, 0.9)', 
+        fontFamily: 'SanFrancisco-Semibold',
     },
 
     modalView: {
@@ -62,7 +78,7 @@ const ProfileStyles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 5,
         marginLeft: 220,
-        backgroundColor: '#49beb7',
+        backgroundColor: '#50cc5c',
 
         paddingTop: 10,
         paddingBottom: 10,
@@ -71,7 +87,6 @@ const ProfileStyles = StyleSheet.create({
 
         borderRadius: 100,
     },
-
 
     containerNavigation: {
         width: Dimensions.get('window').width - 25,
@@ -83,7 +98,7 @@ const ProfileStyles = StyleSheet.create({
         borderRadius: 20,
 
         flexDirection: "row",
-        justifyContent: 'space-around',
+        justifyContent: "space-around",
     },
 
     profileInfo: {
@@ -103,35 +118,30 @@ const ProfileStyles = StyleSheet.create({
     },
 
     profileImage: {
-        width: Dimensions.get('window').height < 690 ? 75 : 100,
-        height: Dimensions.get('window').height < 690 ? 75 : 100
+        width: Dimensions.get('window').height < 690 ? 15 : 25,
+        height: Dimensions.get('window').height < 690 ? 15 : 25
     },
 
     profileImageContainer: { 
-        marginTop: 30,
+        width: Dimensions.get('window').height < 690 ? 30 : 40,
+        height: Dimensions.get('window').height < 690 ? 30 : 40,
 
-        width: Dimensions.get('window').height < 690 ? 115 : 140,
-        height: Dimensions.get('window').height < 690 ? 115 : 140,
-
-        borderWidth: 3, 
-        borderColor: '#49beb7', 
+        borderWidth: 2, 
+        borderColor: '#50cc5c', 
         borderRadius: 100, 
 
         justifyContent: 'center', 
         alignItems: 'center', 
     },
 
-    profileButtons: { 
-        marginTop: 30, 
-        marginBottom: 30,
-        
-        width: Dimensions.get('window').width - 60, 
-        height: 60, 
-        
-        flexDirection: 'row', 
-        justifyContent: 'space-around', 
-        
-    }
+    tradeInfoProfile: {
+        width: Dimensions.get('window').width - 60,
+        height: 130,
+
+        borderRadius: 20,
+        backgroundColor: '#1a1a1a',
+    },
+
 })
 
 export default ProfileStyles;

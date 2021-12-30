@@ -22,7 +22,7 @@ const MainStyles = StyleSheet.create({
     },
 
     modalView: {
-        marginTop: 150,
+        marginTop: Dimensions.get('window').height < 690 ? 90 : 150,
         justifyContent: "center",
         alignItems: "center",
 
@@ -31,7 +31,7 @@ const MainStyles = StyleSheet.create({
 
     chartModalView: {
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 100) : handlerHeight(Dimensions.get('window').height, 0.85),
+        height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 10) : handlerHeight(Dimensions.get('window').height, 0.85),
         backgroundColor: "#131313",
         borderRadius: 28,
 
@@ -41,6 +41,7 @@ const MainStyles = StyleSheet.create({
     },
 
     modalControl: {
+        width: Dimensions.get('window').width - 60,
         flexDirection: "row",
         alignItems: 'flex-end'
     },
@@ -59,7 +60,7 @@ const MainStyles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 5,
         marginLeft: 220,
-        backgroundColor: '#49beb7',
+        backgroundColor: '#50cc5c',
 
         paddingTop: 10,
         paddingBottom: 10,
@@ -88,7 +89,7 @@ const MainStyles = StyleSheet.create({
     buttonControl: {
         width: 40,
         height: 40,
-        backgroundColor: '#49beb7',
+        backgroundColor: '#50cc5c',
         borderRadius: 15,
 
         justifyContent: 'center',
@@ -98,7 +99,7 @@ const MainStyles = StyleSheet.create({
     buttonControlActive: {
         width: 40,
         height: 40,
-        backgroundColor: '#389c96',
+        backgroundColor: '#3c9945',
         borderRadius: 15,
 
         justifyContent: 'center',
@@ -112,7 +113,7 @@ const MainStyles = StyleSheet.create({
 
     modalInfo: {
         width: Dimensions.get('window').width - 60,
-        height: 300,
+        height: Dimensions.get('window').height < 690 ? 140 : 240,
         backgroundColor: '#191919',
         borderRadius: 17,
         alignItems: 'center'

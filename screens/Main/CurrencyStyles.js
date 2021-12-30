@@ -24,12 +24,13 @@ const CurrencyStyles = StyleSheet.create({
     },
 
     currencyTitle: {
+        marginRight: 60,
         flexDirection: 'row',
         alignItems: 'center'
     },
 
     currencyTitleText: {
-        padding: 10,
+        padding: Dimensions.get('window').height < 690 ? 5 : 10,
         color: 'white',
         fontSize: 15,
         fontFamily: 'SanFrancisco-Semibold'
@@ -41,7 +42,8 @@ const CurrencyStyles = StyleSheet.create({
     },
 
     currencyPriceText: {
-        padding: 10,
+        padding: Dimensions.get('window').height < 690 ? 5 : 10,
+
         color: 'white',
         fontSize: 15,
         fontFamily: 'SanFrancisco-Medium',

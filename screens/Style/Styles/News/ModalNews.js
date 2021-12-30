@@ -1,17 +1,17 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-const OptionsStyles = StyleSheet.create({
+const ModalStyle = StyleSheet.create({
     modalView: {
-        marginTop: 270,
+        marginTop: 70,
         justifyContent: "center",
         alignItems: "center",
-        
+
         backgroundColor: "rgba(255, 255, 255, 0)",
     },
 
-    modalContainer: {
-        width: 400,
-        height: 600,
+    chartModalView: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height + 80,
         backgroundColor: "#131313",
         borderRadius: 28,
 
@@ -39,29 +39,27 @@ const OptionsStyles = StyleSheet.create({
         borderRadius: 100,
     },
 
-    optionsContainer: {
-        width: 360, 
-        height: 600,
-        borderRadius: 20,
-        backgroundColor: '#1a1a1a',
+    modalNewsText: {
+        width: Dimensions.get('window').width - 70,
+        padding: 10,
+        marginTop: 5, 
+        marginBottom: 5,
 
-        alignItems: 'center'
+        fontFamily: 'SanFrancisco-Semibold',
+        color: 'white',
+        textAlign: 'center',
+
+        borderRadius: 18,
+        backgroundColor: '#1a1a1a'
     },
 
-    option: {
-        marginTop: 20,
-        padding: Dimensions.get('window').height < 690 ? 10 : 5,
-
-        width: 340,
-
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: 'center',
-
-        backgroundColor: '#212121',
-        borderRadius: 18,
+    modalNewsImage: {
+        width: 320,
+        height: 200,
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 20
     }
-
 })
 
-export default OptionsStyles;
+export default ModalStyle;

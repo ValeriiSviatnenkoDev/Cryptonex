@@ -4,63 +4,53 @@ import { Image, Text, TextInput, TouchableHighlight, View, Modal } from 'react-n
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
-import * as Font from 'expo-font';
 
 /* Other */
-import * as Yup from 'yup';
 import { Formik } from 'formik';
 
-/* Styles */
-import ErrorStyles from './ErrorStyle.js';
-import RegisterStyles from './RegisterStyles.js';
+/* Schema */
+import SignUpSchema from './SignUpSchema.js';
+
+/* Styles & Utils */
+import RegisterForm from '../Style/Styles/Register/Form.js';
+import RegisterStyles from '../Style/Styles/Register/Styles.js';
+import { heandlerFontsLoad } from '../Style/Utils/handleLoadFonts.js';
+
+/* Components */
+import RegisterError from './components/RegisterError.jsx';
 
 /* Context */
-import { StartContext, StartProvider } from '../startContext.js';
+import { StartContext, StartProvider } from '../context/startContext.js';
 
-/* Custom Fonts */
-let customFonts = {
-    'SanFrancisco-Regular': require('../../assets/fonts/SanFrancisco/SanFrancisco-Regular.ttf'),
-    'SanFrancisco-Medium': require('../../assets/fonts/SanFrancisco/SanFrancisco-Medium.ttf'),
-    'SanFrancisco-Semibold': require('../../assets/fonts/SanFrancisco/SanFrancisco-Semibold.ttf'),
-    'SanFrancisco-Bold': require('../../assets/fonts/SanFrancisco/SanFrancisco-Bold.ttf'),
-}
-
-function RegisterAccount() {
+const RegisterAccount = () => {
     const { showSignUp, setShowSignUp } = useContext(StartContext)
 
     const [fonts, setFonts] = useState(false);
     const [errorModal, setModal] = useState(false);
     const [errorText, setError] = useState('');
 
-    async function fontsLoad() {
-        await Font.loadAsync(customFonts);
-        setFonts(true);
-    }
-
-    const SignupSchema = Yup.object().shape({
-        userName: Yup.string()
-            .min(4, 'Введите другой логин, минимум 4 символа!')
-            .max(86, 'Логин не может быть длиннее 86-ти символов!')
-            .required('Required'),
-        userEmail: Yup.string().email('Введите корректную электронную почту!').required('Required'),
-        userPassword: Yup.string()
-            .min(7, 'Ведённый пароль должен содержать минимум 7 символов!')
-            .max(86, 'Ну слушай, куда ты там погнал, максимум 86 символов!')
-            .required('Required')
-    });
-
     async function submitForm(args) {
-        await fetch("https://arcane-thicket-38880.herokuapp.com/user-register", {
+        const response = await fetch("https://arcane-thicket-38880.herokuapp.com/user-register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(args)
         });
 
-        return setShowSignUp(false);
+        const jsonData = await response.json();
+
+        if (jsonData.status == false) {
+            setError(jsonData.errors.message);
+            setModal(true);
+            setTimeout(() => {
+                setModal(false);
+            }, 1500);
+            return;
+        }
     }
 
-    useEffect(() => {
-        fontsLoad();
+    useEffect(async () => {
+        const res = await heandlerFontsLoad();
+        setFonts(res);
     }, []);
 
     if (!fonts) {
@@ -68,26 +58,20 @@ function RegisterAccount() {
     } else {
         return (
             <StartProvider>
-                <Modal animationType="fade" transparent={true} visible={errorModal} onRequestClose={() => { setModal(false) }}>
-                    <View style={ErrorStyles.errorView}>
-                        <View style={ErrorStyles.errorModalView}>
-                            <Text style={ErrorStyles.modalText}>{errorText}</Text>
-                        </View>
-                    </View>
-                </Modal>
+                <RegisterError errorModal={errorModal} errorText={errorText} />
 
                 <Modal animationType="slide" transparent={true} visible={showSignUp} onRequestClose={() => { setShowSignUp(false) }}>
                     <View style={RegisterStyles.centeredView}>
                         <View style={RegisterStyles.modalView}>
-                            <Image style={RegisterStyles.conatinerImage} source={require('../../assets/image/Logo.png')} />
-                            <Text style={RegisterStyles.titleText}>Начните формировать свой криптовалютный портфель</Text>
-                            <Formik initialValues={{ userName: '', userEmail: '', userPassword: '' }} validationSchema={SignupSchema} onSubmit={values => submitForm(values)}>
-                                {({ errors, touched, handleChange, handleSubmit, values }) => (
+                            <Image style={RegisterForm.conatinerImage} source={require('../../assets/image/Logo.png')} />
+                            <Text style={RegisterForm.titleText}>Начните формировать свой криптовалютный портфель</Text>
+                            <Formik initialValues={{ userName: '', userEmail: '', userPassword: '' }} validationSchema={SignUpSchema} onSubmit={values => submitForm(values)}>
+                                {({ errors, handleChange, handleSubmit, values }) => (
                                     <View>
-                                        <TextInput style={RegisterStyles.containerInput} onChangeText={handleChange('userName')} value={values.userName} placeholder="Логин" placeholderTextColor={'rgba(56, 156, 150, 0.3)'} />
-                                        <TextInput style={RegisterStyles.containerInput} onChangeText={handleChange('userEmail')} value={values.userEmail} placeholder="Эл. почта" placeholderTextColor={'rgba(56, 156, 150, 0.3)'} />
-                                        <TextInput secureTextEntry={true} style={RegisterStyles.containerInput} onChangeText={handleChange('userPassword')} value={values.userPassword} placeholder="Пароль" placeholderTextColor={'rgba(56, 156, 150, 0.3)'} />
-                                        <TouchableHighlight style={RegisterStyles.containerButtonRegister} onPress={() => {
+                                        <TextInput style={RegisterForm.containerInput} onChangeText={handleChange('userName')} value={values.userName} placeholder="Логин" placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
+                                        <TextInput style={RegisterForm.containerInput} onChangeText={handleChange('userEmail')} value={values.userEmail} placeholder="Эл. почта" placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
+                                        <TextInput secureTextEntry={true} style={RegisterForm.containerInput} onChangeText={handleChange('userPassword')} value={values.userPassword} placeholder="Пароль" placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
+                                        <TouchableHighlight style={RegisterForm.containerButtonRegister} onPress={() => {
                                             handleSubmit();
                                             if (errors.userName) {
                                                 setModal(true);
@@ -116,15 +100,15 @@ function RegisterAccount() {
                                                 return;
                                             }
                                         }}>
-                                            <Text style={RegisterStyles.containerTextInButton}>Погнали</Text>
+                                            <Text style={RegisterForm.containerTextInButton}>Погнали</Text>
                                         </TouchableHighlight>
                                     </View>
                                 )}
                             </Formik>
-                            <TouchableHighlight style={RegisterStyles.containerButtonBack} onPress={() => { setShowSignUp(false) }}>
-                                <Text style={RegisterStyles.containerTextButtonBack}>Вернуться</Text>
+                            <TouchableHighlight style={RegisterForm.containerButtonBack} onPress={() => { setShowSignUp(false) }}>
+                                <Text style={RegisterForm.containerTextButtonBack}>Вернуться</Text>
                             </TouchableHighlight>
-                            <Text style={RegisterStyles.companyYear}>Cryptonex 2021</Text>
+                            <Text style={RegisterForm.companyYear}>Cryptonex 2021</Text>
                         </View>
                     </View>
                 </Modal>

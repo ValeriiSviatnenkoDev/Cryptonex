@@ -1,8 +1,7 @@
 /* React */
 import 'react-native-gesture-handler';
-import React, { useContext, useEffect } from 'react';
-import { Image, Text, View } from 'react-native';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 /* Expo */
@@ -19,7 +18,7 @@ import Trade from './screens/Trade/Trade.jsx'
 import LogoCompany from './header/Logo/LogoCompany.jsx';
 
 /* Context */
-import { StartProvider } from './screens/startContext.js';
+import { StartProvider } from './screens/context/startContext.js';
 import { MainProvider } from './screens/Main/mainContext.js';
 import { ProfileProvider } from './screens/Profile/profileContext.js';
 
@@ -31,9 +30,7 @@ let customFonts = {
   'SanFrancisco-Bold': require('./assets/fonts/SanFrancisco/SanFrancisco-Bold.ttf'),
 }
 
-
 function App() {
-
   async function fontsLoad() {
     await Font.loadAsync(customFonts);
   }

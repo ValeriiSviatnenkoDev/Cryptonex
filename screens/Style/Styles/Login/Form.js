@@ -17,7 +17,7 @@ const FormStyles = StyleSheet.create({
 
         backgroundColor: 'rgba(255, 255, 255, 0)',
         borderBottomWidth: 2,
-        borderColor: '#389c96',
+        borderColor: '#50cc5c',
         color: 'white',
 
         fontFamily: 'SanFrancisco-Medium'
@@ -29,7 +29,7 @@ const FormStyles = StyleSheet.create({
         width: 130,
         height: 35,
 
-        backgroundColor: '#389c96',
+        backgroundColor: '#50cc5c',
 
         justifyContent: 'center',
         alignItems: 'center'

@@ -20,6 +20,9 @@
     "expo": "~43.0.2",
     "expo-app-loading": "~1.2.1",
     "expo-font": "~10.0.3",
+    "expo-google-app-auth": "~9.0.0",
+    "expo-google-sign-in": "~10.0.3",
+    "expo-linear-gradient": "^11.0.0",
     "expo-screen-orientation": "~4.0.3",
     "expo-status-bar": "~1.1.0",
     "formik": "^2.2.9",
@@ -29,13 +32,13 @@
     "react-native": "0.64.3",
     "react-native-chart-kit": "^6.11.0",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-gifted-charts": "^0.2.3",
     "react-native-paper": "^4.11.1",
+    "react-native-swipe-gestures": "^1.0.5",
     "react-native-web": "0.17.1",
     "socket.io-client": "^4.4.0",
     "victory-native": "^36.2.0",
-    "yup": "^0.32.11",
-    "expo-google-sign-in": "~10.0.3",
-    "expo-google-app-auth": "~9.0.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

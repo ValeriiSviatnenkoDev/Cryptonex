@@ -99,7 +99,26 @@ const CryptoImage = {
     OMG: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1808.png',
     ANKR: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3783.png',
     ZEN: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1698.png',
-    BORA: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3801.png'
+    BORA: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3801.png',
+    YFI: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5864.png',
+    RENBTC: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5777.png',
+    STETH: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8085.png',
+    HBTC: 'https://s2.coinmarketcap.com/static/img/coins/64x64/6941.png',
+    RBTC: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3626.png',
+    AETH: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8100.png',
+    CORE: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7242.png',
+    XMON: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8509.png',
+    SOCKS: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7095.png',
+    DIGG: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8307.png',
+    MAMZN: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8016.png',
+    NFTI: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8700.png',
+    '42': 'https://s2.coinmarketcap.com/static/img/coins/64x64/93.png',
+    SQUID: 'https://s2.coinmarketcap.com/static/img/coins/64x64/13620.png',
+    SZCB: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7988.png',
+    TBTC: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5776.png',
+    PUNK: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11621.png',
+    WSOHM: 'https://i.imgur.com/BIxldto.png',
+    BTCK: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11134.png'
 }
 
 export default CryptoImage;

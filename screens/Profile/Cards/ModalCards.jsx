@@ -75,10 +75,10 @@ function Cards() {
                     <View style={ProfileStyles.modalContent}>
                         {
                             isLoading ?
-                                <ActivityIndicator size="large" color="#49beb7" />
+                                <ActivityIndicator size="large" color="#50cc5c" />
                                 :
                                 cardNum == 'None' ?
-                                    <MaterialCommunityIcons name="credit-card-plus-outline" size={40} color="white" style={{ backgroundColor: '#49beb7', paddingLeft: 10, paddingRight: 8, paddingTop: 5, paddingBottom: 5, borderRadius: 12 }} onPress={() => { createCard(user.user.id); }} />
+                                    <MaterialCommunityIcons name="credit-card-plus-outline" size={40} color="white" style={{ backgroundColor: '#50cc5c', paddingLeft: 10, paddingRight: 8, paddingTop: 5, paddingBottom: 5, borderRadius: 12 }} onPress={() => { createCard(user.user.id); }} />
                                     :
                                     <TouchableHighlight onPress={() => { setReverse(prev => !prev) }}>
                                         {

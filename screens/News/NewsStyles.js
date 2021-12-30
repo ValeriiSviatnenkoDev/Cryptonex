@@ -10,8 +10,8 @@ const NewsStyles = StyleSheet.create({
     },
 
     containerContent: {
-        marginTop: 30,
-        width: Dimensions.get('window').width - 30,
+        marginTop: Dimensions.get('window').height < 690 ? 15 : 30,
+        width: Dimensions.get('window').width - 20,
         height: Dimensions.get('window').height < 690 ? Dimensions.get('window').height - 60 : Dimensions.get('window').height,
 
         backgroundColor: '#161616',
@@ -65,41 +65,44 @@ const NewsStyles = StyleSheet.create({
         width: Dimensions.get('window').width - 60,
         height: 100,
 
-        backgroundColor: 'rgba(73, 190, 183, 0.02)',
+        backgroundColor: 'rgba(255, 255, 255, 0.03)',
         borderRadius: 20,
 
         justifyContent: "center",
         alignItems: 'center',
         borderWidth: 3,
-        borderColor: 'rgba(73, 190, 183, 0.1)'
+        borderColor: 'rgba(255, 255, 255, 0.3)'
     },
 
     newsHeader: {
-        width: Dimensions.get('window').width - 100,
-        paddingTop: 20,
+        width: Dimensions.get('window').width - 150,
+        paddingTop: 5,
         paddingBottom: 20,
 
         textAlign: 'center',
         color: 'rgba(255, 255, 255, 0.9)',
-        fontSize: 13,
+        fontSize: 12,
         fontFamily: 'SanFrancisco-Semibold'
     },
 
-    headerText: {
-        marginLeft: 20, 
+    headerTitle: {
         marginTop: 10,
+        marginBottom: 5,
         
-        width: Dimensions.get('window').width - 80, 
-        padding: 10, 
+        paddingTop: 5,
+        paddingBottom: 5,
 
+        width: Dimensions.get('window').width - 60,
+
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+
+    headerText: {
         fontSize: 30, 
         color: 'rgba(255, 255, 255, 0.9)', 
-        fontFamily: 'SanFrancisco-Semibold', 
-        textAlign: 'center',
-        
-        
-        backgroundColor: 'rgba(73, 190, 183, 0.1)', 
-        borderRadius: 20, 
+        fontFamily: 'SanFrancisco-Semibold',
     }
 })
 

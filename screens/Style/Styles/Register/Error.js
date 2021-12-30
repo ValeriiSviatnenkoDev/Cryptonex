@@ -1,8 +1,8 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const ErrorStyles = StyleSheet.create({
     errorView: {
-        marginTop: 130,
+        marginTop: Dimensions.get('window').height < 690 ? 20 : 130,
         justifyContent: "center",
         alignItems: "center",
         
@@ -10,8 +10,8 @@ const ErrorStyles = StyleSheet.create({
       },
 
       errorModalView: {
-        width: 325,
-        height: 100,
+        width: Dimensions.get('window').width - 75,
+        height: Dimensions.get('window').height < 690 ? 80 : 100,
         backgroundColor: "#c41b1b",
         borderRadius: 28,
 
@@ -21,11 +21,11 @@ const ErrorStyles = StyleSheet.create({
 
     modalText: {
         padding: 10,
-        width: 230,
+        width: Dimensions.get('window').height < 690 ? 180 : 230,
 
         color: 'white',
         fontFamily: 'SanFrancisco-Medium',
-        fontSize: 18,
+        fontSize: Dimensions.get('window').height < 690 ? 15 : 18,
         textAlign: "center"
     }
 })

@@ -1,51 +1,64 @@
 /* React */
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, TouchableHighlight, View, Modal, ScrollView, Image } from 'react-native';
+import { ActivityIndicator, Text, TouchableHighlight, View, ScrollView, Image, Dimensions } from 'react-native';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
-import { FontAwesome } from '@expo/vector-icons';
-import * as Font from 'expo-font';
+import { AntDesign } from '@expo/vector-icons';
 
-/* Styles */
+/* Styles & Utils */
 import NewsStyles from "./NewsStyles";
+import { heandlerFontsLoad } from '../Style/Utils/handleLoadFonts.js';
 
-/* Fonts */
-let customFonts = {
-    'SanFrancisco-Regular': require('../../assets/fonts/SanFrancisco/SanFrancisco-Regular.ttf'),
-    'SanFrancisco-Medium': require('../../assets/fonts/SanFrancisco/SanFrancisco-Medium.ttf'),
-    'SanFrancisco-Semibold': require('../../assets/fonts/SanFrancisco/SanFrancisco-Semibold.ttf'),
-    'SanFrancisco-Bold': require('../../assets/fonts/SanFrancisco/SanFrancisco-Bold.ttf'),
-}
+/* Components */
+import ModalNews from "./components/ModalNews";
 
 export default function News() {
-    const [showModal, setModal] = useState(false);
-    const [articles, setArticles] = useState([]);
-    const [fonts, setFonts] = useState(false);
-    const [news, setNews] = useState([]);
+    /* state, loading */
     const [isLoading, setLoading] = useState(false);
+    const [fonts, setFonts] = useState(false);
+
+    /* control modal */
+    const [showModal, setModal] = useState(false);;
+
+    /* data */
+    const [artNow, setArtNow] = useState([]);
+    const [artYDay, setArtYDay] = useState([]);
+    const [news, setNews] = useState([]);
+
+    /* Date */
+    const date = new Date();
 
     /* News API */
-    var url = 'https://newsapi.org/v2/everything?' + 'q=Bitcoin&' + 'from=2021-12-15&' + 'sortBy=popularity&' + 'apiKey=1d1d2853d2c6466ea0841d8f77c5d879';
-    var req = new Request(url);
-    let imageUrl = { uri: news.urlToImage };
+    const urls = {
+        newsNow: 'https://newsapi.org/v2/everything?' + 'q=cryptocurrency&' + `from=${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}&` + 'sortBy=popularity&' + 'apiKey=1d1d2853d2c6466ea0841d8f77c5d879',
+        newsYDay: 'https://newsapi.org/v2/everything?' + 'q=cryptocurrency&' + `from=${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}&` + 'sortBy=popularity&' + 'apiKey=1d1d2853d2c6466ea0841d8f77c5d879'
+    }
+
+    const requests = {
+        reqNewsNow: new Request(urls.newsNow),
+        reqNewsYDay: new Request(urls.newsYDay)
+    }
 
     async function uploadNews() {
         setLoading(true);
-        const response = await fetch(req);
-        const jsonData = await response.json();
-        setArticles(jsonData.articles)
+
+        const responseNewsNow = await fetch(requests.reqNewsNow);
+        const responseNewsYDay = await fetch(requests.reqNewsYDay);
+
+        const _newsNowData = await responseNewsNow.json();
+        const _newsYdayData = await responseNewsYDay.json();
+
+        setArtNow(_newsNowData.articles);
+        setArtYDay(_newsYdayData.articles);
+
         setLoading(false);
     }
 
-    async function fontsLoad() {
-        await Font.loadAsync(customFonts);
-        setFonts(true);
-    }
-
-    useEffect(() => {
+    useEffect(async () => {
         uploadNews();
-        fontsLoad();
+        const res = await heandlerFontsLoad();
+        setFonts(res);
     }, [])
 
     if (!fonts) {
@@ -53,39 +66,55 @@ export default function News() {
     } else {
         return (
             <View style={NewsStyles.mainContainer}>
-                <Modal animationType="slide" transparent={true} visible={showModal} onRequestClose={() => { setModal(false) }}>
-                    <View style={NewsStyles.modalView}>
-                        <View style={NewsStyles.chartModalView}>
-                            <View style={NewsStyles.modalControl}>
-                                <FontAwesome name="angle-down" size={36} style={NewsStyles.modalControlIcon} color="#49beb7" onPress={() => { setModal(false) }} />
-                            </View>
-                            <View>
-                                <Text style={{ width: 320, fontSize: 18, fontFamily: 'SanFrancisco-Semibold', color: 'white', textAlign: 'center', borderRadius: 18, padding: 10, backgroundColor: '#1a1a1a' }}>{news.title}</Text>
-                                <Image style={{ width: 320, height: 200, marginTop: 10, marginBottom: 10, borderRadius: 20 }} source={imageUrl} />
-                                <Text style={{ width: 320, fontSize: 15, fontFamily: 'SanFrancisco-Medium', color: 'white', textAlign: 'center', borderRadius: 18, padding: 10, backgroundColor: '#1a1a1a' }}>{news.description}</Text>
-                                <Text style={{ width: 320, fontSize: 13, fontFamily: 'SanFrancisco-Medium', color: 'white', textAlign: 'center', borderRadius: 18, padding: 10, backgroundColor: '#1a1a1a', marginTop: 10, marginBottom: 10 }}>{news.content}</Text>
-                                <Text style={{ width: 320, fontSize: 12, fontFamily: 'SanFrancisco-Medium', color: 'white', textAlign: 'center', borderRadius: 18, padding: 10, backgroundColor: '#1a1a1a' }}>{news.publishedAt}</Text>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
+                <ModalNews showModal={showModal} setModal={setModal} news={news} />
 
                 {
                     isLoading ?
-                        <ActivityIndicator size="large" color="#49beb7" />
+                        <ActivityIndicator size="large" color="#50cc5c" />
                         :
                         <View style={NewsStyles.containerContent}>
-                            <ScrollView style={{ borderRadius: 20 }}>
-                                <Text style={NewsStyles.headerText}>News</Text>
-                                {
-                                    articles.map(art => (
-                                        <TouchableHighlight onPress={() => { setModal(true); setNews(art); }}>
-                                            <View style={NewsStyles.newsContainer}>
-                                                <Text style={NewsStyles.newsHeader}>{art.title}</Text>
-                                            </View>
-                                        </TouchableHighlight>
-                                    ))
-                                }
+                            <View style={NewsStyles.headerTitle}>
+                                <Text style={NewsStyles.headerText}>Новости</Text>
+                                <AntDesign name="reload1" size={28} color="#50cc5c" onPress={() => { uploadNews() }} />
+                            </View>
+                            <ScrollView>
+                                <View>
+                                    <View style={{ padding: 10 }}>
+                                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'SanFrancisco-Semibold', paddingTop: 5, paddingBottom: 1 }}>Новости за сегодня</Text>
+                                        <Text style={{ width: 140, color: 'rgba(255, 255, 255, 0.6)', fontSize: 12, fontFamily: 'SanFrancisco-Semibold', paddingTop: 2 }}>Подборка популярных новостей за сегодня</Text>
+                                    </View>
+                                    <ScrollView horizontal={true} decelerationRate={0} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
+                                        {
+                                            artNow.map(art => (
+                                                <TouchableHighlight style={{ padding: 10 }} key={art.title} onPress={() => { setModal(true); setNews(art); }}>
+                                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                                        <Image style={{ width: Dimensions.get('window').width - 160, height: 230, marginBottom: 5, borderRadius: 16 }} source={{ uri: art.urlToImage }} />
+                                                        <Text style={NewsStyles.newsHeader}>{art.title.split(' ').length > 4 ? art.title.split(' ').slice(0, 3).join(' ') + '...' : art.title}</Text>
+                                                    </View>
+                                                </TouchableHighlight>
+                                            ))
+                                        }
+                                    </ScrollView>
+                                </View>
+                                <View>
+                                    <View style={{ padding: 10 }}>
+                                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'SanFrancisco-Semibold', paddingTop: 5, paddingBottom: 1 }}>Новости за вчера</Text>
+                                        <Text style={{ width: 140, color: 'rgba(255, 255, 255, 0.6)', fontSize: 12, fontFamily: 'SanFrancisco-Semibold', paddingTop: 2 }}>Подборка популярных новостей за вчера</Text>
+                                    </View>
+                                    <ScrollView horizontal={true} decelerationRate={0} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
+                                        {
+                                            artYDay.map(art => (
+                                                <TouchableHighlight style={{ padding: 10 }} key={art.title} onPress={() => { setModal(true); setNews(art); }}>
+                                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                                        <Image style={{ width: Dimensions.get('window').width - 160, height: 230, marginBottom: 5, borderRadius: 16 }} source={{ uri: art.urlToImage }} />
+                                                        <Text style={NewsStyles.newsHeader}>{art.title.split(' ').length > 4 ? art.title.split(' ').slice(0, 3).join(' ') + '...' : art.title}</Text>
+                                                    </View>
+                                                </TouchableHighlight>
+                                            ))
+                                        }
+                                    </ScrollView>
+                                </View>
+
                             </ScrollView>
                         </View>
                 }

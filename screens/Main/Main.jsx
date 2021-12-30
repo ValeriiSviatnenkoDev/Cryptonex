@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Text, TouchableOpacity, View, Modal, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { useNavigation } from '@react-navigation/native';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
@@ -89,15 +90,11 @@ function Main() {
 
     const navigation = useNavigation();
 
-    
-    socket.on('UpdateCurrency', (arg) => {
-        setCrypt(arg.data);
-    })
-
     async function fontsLoad() {
         await Font.loadAsync(customFonts);
         setFonts(true);
     }
+
 
     useEffect(() => {
         Dimensions.addEventListener('change', ({ window: { width, height } }) => {
@@ -105,6 +102,11 @@ function Main() {
                 ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
             }
         })
+
+        socket.on('UpdateCurrency', (arg) => {
+            setCrypt(arg.data);
+        })
+
 
         fontsLoad();
     }, [crypt]);
@@ -114,130 +116,131 @@ function Main() {
     } else {
         return (
             <View style={MainStyles.mainContainer}>
-                <Modal animationType="slide" transparent={true} visible={showModal} onRequestClose={() => { setModal(false) }}>
-                    <View style={MainStyles.modalView}>
-                        <View style={MainStyles.chartModalView}>
-                            <View style={MainStyles.modalControl}>
-                                <Text style={{ color: 'white', fontSize: 18, fontFamily: 'SanFrancisco-Semibold', paddingTop: 9, paddingBottom: 9 }}>{currency.name}</Text>
-                                <FontAwesome name="close" size={20} style={MainStyles.modalControlIcon} color="white" onPress={() => { setModal(false) }} />
-                            </View>
-                            <View style={MainStyles.modalContent}>
-                                <TouchableOpacity onPress={() => { navigation.navigate('Trade') }}>
-                                    <LineChart
-                                        data={{
-                                            labels: [`16.09`, `16.10`, `16.11`, `09.12`, `15.12`, `13:25`],
-                                            datasets: [
-                                                {
-                                                    data: [
-                                                        currency.quote.USD.percent_change_90d,
-                                                        currency.quote.USD.percent_change_60d,
-                                                        currency.quote.USD.percent_change_30d,
-                                                        currency.quote.USD.percent_change_7d,
-                                                        currency.quote.USD.percent_change_24h,
-                                                        currency.quote.USD.percent_change_1h
-                                                    ]
-                                                }
-                                            ]
-                                        }}
-                                        width={340} // from react-native
-                                        height={200}
-                                        yAxisLabel=""
-                                        yAxisSuffix=" %"
-                                        yAxisInterval={1} // optional, defaults to 1
-                                        chartConfig={{
-                                            backgroundColor: "#1a1a1a",
-                                            backgroundGradientFrom: "#191919",
-                                            backgroundGradientTo: "#212121",
-                                            decimalPlaces: 2, // optional, defaults to 2dp
-                                            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                                            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                                            style: {
-                                                paddingTop: 10,
-                                                borderRadius: 16
-                                            },
-                                            propsForDots: {
-                                                r: "4",
-                                                strokeWidth: "1",
-                                                stroke: "#49beb7"
-                                            }
-                                        }}
-                                        bezier
-                                        style={{
-                                            borderRadius: 16
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                                <View style={MainStyles.buttonsContainer}>
-                                    <TouchableHighlight style={activeOption ? MainStyles.buttonControlActive : MainStyles.buttonControl} onPress={() => setOption(prev => !prev)}>
-                                        <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>H</Text>
-                                    </TouchableHighlight>
-
-                                    <TouchableHighlight style={MainStyles.buttonControl}>
-                                        <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>D</Text>
-                                    </TouchableHighlight>
-
-                                    <TouchableHighlight style={MainStyles.buttonControl}>
-                                        <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>W</Text>
-                                    </TouchableHighlight>
-
-                                    <TouchableHighlight style={MainStyles.buttonControl}>
-                                        <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>M</Text>
-                                    </TouchableHighlight>
-
-                                    <TouchableHighlight style={MainStyles.buttonControl}>
-                                        <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>Y</Text>
-                                    </TouchableHighlight>
+                <GestureRecognizer onSwipeDown={() => setModal(false)}>
+                    <Modal animationType="slide" transparent={true} visible={showModal} onRequestClose={() => { setModal(false) }}>
+                        <View style={MainStyles.modalView}>
+                            <View style={MainStyles.chartModalView}>
+                                <View style={MainStyles.modalControl}>
+                                    <Text style={{ color: 'white', fontSize: 18, fontFamily: 'SanFrancisco-Semibold', paddingTop: 9, paddingBottom: 9 }}>{currency.name}</Text>
+                                    <FontAwesome name="close" size={20} style={MainStyles.modalControlIcon} color="white" onPress={() => { setModal(false) }} />
                                 </View>
+                                <View style={MainStyles.modalContent}>
+                                    <TouchableOpacity onPress={() => { navigation.navigate('Trade') }}>
+                                        <LineChart
+                                            data={{
+                                                labels: [`16.09`, `16.10`, `16.11`, `09.12`, `15.12`, `13:25`],
+                                                datasets: [
+                                                    {
+                                                        data: [
+                                                            currency.quote.USD.percent_change_90d,
+                                                            currency.quote.USD.percent_change_60d,
+                                                            currency.quote.USD.percent_change_30d,
+                                                            currency.quote.USD.percent_change_7d,
+                                                            currency.quote.USD.percent_change_24h,
+                                                            currency.quote.USD.percent_change_1h
+                                                        ]
+                                                    }
+                                                ]
+                                            }}
+                                            width={Dimensions.get('window').width - 60} // from react-native
+                                            height={200}
+                                            yAxisLabel=""
+                                            yAxisSuffix=" %"
+                                            yAxisInterval={1} // optional, defaults to 1
+                                            chartConfig={{
+                                                backgroundColor: "#1a1a1a",
+                                                backgroundGradientFrom: "#191919",
+                                                backgroundGradientTo: "#212121",
+                                                decimalPlaces: 2, // optional, defaults to 2dp
+                                                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                                style: {
+                                                    paddingTop: 10,
+                                                    borderRadius: 16
+                                                },
+                                                propsForDots: {
+                                                    r: "4",
+                                                    strokeWidth: "1",
+                                                    stroke: "#50cc5c",
+                                                }
+                                            }}
+                                            bezier
+                                            style={{
+                                                borderRadius: 16
+                                            }}
+                                        />
+                                    </TouchableOpacity>
+                                    <View style={MainStyles.buttonsContainer}>
+                                        <TouchableHighlight style={activeOption ? MainStyles.buttonControlActive : MainStyles.buttonControl} onPress={() => setOption(prev => !prev)}>
+                                            <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>H</Text>
+                                        </TouchableHighlight>
 
-                                <View style={MainStyles.modalInfo}>
-                                    <View style={MainStyles.currencyInfo}>
-                                        <View style={CurrencyStyles.currencyTitle}>
-                                            <Text style={CurrencyStyles.currencyTitleText}>1 hours %</Text>
-                                        </View>
-                                        <View style={CurrencyStyles.currencyPrice}>
-                                            {
-                                                (currency.quote.USD.percent_change_1h) < 0 ?
-                                                    <FontAwesome name="caret-down" size={24} color="red" />
-                                                    :
-                                                    <FontAwesome name="caret-up" size={24} color="green" />
-                                            }
-                                            <Text style={CurrencyStyles.currencyPriceText}>{(currency.quote.USD.percent_change_1h).toFixed(4)}</Text>
-                                        </View>
+                                        <TouchableHighlight style={MainStyles.buttonControl}>
+                                            <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>D</Text>
+                                        </TouchableHighlight>
+
+                                        <TouchableHighlight style={MainStyles.buttonControl}>
+                                            <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>W</Text>
+                                        </TouchableHighlight>
+
+                                        <TouchableHighlight style={MainStyles.buttonControl}>
+                                            <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>M</Text>
+                                        </TouchableHighlight>
+
+                                        <TouchableHighlight style={MainStyles.buttonControl}>
+                                            <Text style={{ color: 'white', fontFamily: 'SanFrancisco-Bold', fontSize: 16 }}>Y</Text>
+                                        </TouchableHighlight>
                                     </View>
-                                    <View style={MainStyles.currencyInfo}>
-                                        <View style={CurrencyStyles.currencyTitle}>
-                                            <Text style={CurrencyStyles.currencyTitleText}>24 hours %</Text>
+
+                                    <View style={MainStyles.modalInfo}>
+                                        <View style={MainStyles.currencyInfo}>
+                                            <View style={CurrencyStyles.currencyTitle}>
+                                                <Text style={CurrencyStyles.currencyTitleText}>1 hours %</Text>
+                                            </View>
+                                            <View style={CurrencyStyles.currencyPrice}>
+                                                {
+                                                    (currency.quote.USD.percent_change_1h) < 0 ?
+                                                        <FontAwesome name="caret-down" size={24} color="red" />
+                                                        :
+                                                        <FontAwesome name="caret-up" size={24} color="green" />
+                                                }
+                                                <Text style={CurrencyStyles.currencyPriceText}>{(currency.quote.USD.percent_change_1h).toFixed(4)}</Text>
+                                            </View>
                                         </View>
-                                        <View style={CurrencyStyles.currencyPrice}>
-                                            {
-                                                (currency.quote.USD.percent_change_24h) < 0 ?
-                                                    <FontAwesome name="caret-down" size={24} color="red" />
-                                                    :
-                                                    <FontAwesome name="caret-up" size={24} color="green" />
-                                            }
-                                            <Text style={CurrencyStyles.currencyPriceText}>{(currency.quote.USD.percent_change_24h).toFixed(4)}</Text>
+                                        <View style={MainStyles.currencyInfo}>
+                                            <View style={CurrencyStyles.currencyTitle}>
+                                                <Text style={CurrencyStyles.currencyTitleText}>24 hours %</Text>
+                                            </View>
+                                            <View style={CurrencyStyles.currencyPrice}>
+                                                {
+                                                    (currency.quote.USD.percent_change_24h) < 0 ?
+                                                        <FontAwesome name="caret-down" size={24} color="red" />
+                                                        :
+                                                        <FontAwesome name="caret-up" size={24} color="green" />
+                                                }
+                                                <Text style={CurrencyStyles.currencyPriceText}>{(currency.quote.USD.percent_change_24h).toFixed(4)}</Text>
+                                            </View>
                                         </View>
-                                    </View>
-                                    <View style={MainStyles.currencyInfo}>
-                                        <View style={CurrencyStyles.currencyTitle}>
-                                            <Text style={CurrencyStyles.currencyTitleText}>7 day %</Text>
-                                        </View>
-                                        <View style={CurrencyStyles.currencyPrice}>
-                                            {
-                                                (currency.quote.USD.percent_change_7d) < 0 ?
-                                                    <FontAwesome name="caret-down" size={24} color="red" />
-                                                    :
-                                                    <FontAwesome name="caret-up" size={24} color="green" />
-                                            }
-                                            <Text style={CurrencyStyles.currencyPriceText}>{(currency.quote.USD.percent_change_7d).toFixed(4)}</Text>
+                                        <View style={MainStyles.currencyInfo}>
+                                            <View style={CurrencyStyles.currencyTitle}>
+                                                <Text style={CurrencyStyles.currencyTitleText}>7 day %</Text>
+                                            </View>
+                                            <View style={CurrencyStyles.currencyPrice}>
+                                                {
+                                                    (currency.quote.USD.percent_change_7d) < 0 ?
+                                                        <FontAwesome name="caret-down" size={24} color="red" />
+                                                        :
+                                                        <FontAwesome name="caret-up" size={24} color="green" />
+                                                }
+                                                <Text style={CurrencyStyles.currencyPriceText}>{(currency.quote.USD.percent_change_7d).toFixed(4)}</Text>
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
                             </View>
                         </View>
-                    </View>
-                </Modal>
-
+                    </Modal>
+                </GestureRecognizer>
                 {
                     showSettings ? <Options /> : null
                 }
@@ -250,12 +253,12 @@ function Main() {
                                 :
                                 <ScrollView>
                                     {
-                                        crypt.map(cr => (
-                                            <TouchableOpacity onPress={() => { setModal(true); setCurrency(cr); }}>
+                                        crypt.filter(x => x.quote.USD.price > 20000).map(cr => (
+                                            <TouchableOpacity key={cr} onPress={() => { setModal(true); setCurrency(cr); }}>
                                                 <View style={CurrencyStyles.currency}>
                                                     <View style={CurrencyStyles.currencyTitle}>
                                                         <Image style={{ width: 32, height: 32 }} source={{ uri: CryptoImage[`${cr.symbol}`] }} />
-                                                        <Text style={CurrencyStyles.currencyTitleText}>{cr.name}</Text>
+                                                        <Text style={CurrencyStyles.currencyTitleText}>{cr.name.split(' ').length < 3 ? cr.name : cr.name.split(' ').slice(0, -1).join(' ')}</Text>
                                                     </View>
                                                     <View style={CurrencyStyles.currencyPrice}>
                                                         <Text style={CurrencyStyles.currencyPriceText}>${(cr.quote.USD.price).toFixed(2)}</Text>
@@ -264,6 +267,63 @@ function Main() {
                                             </TouchableOpacity>
                                         ))
                                     }
+                                    <TouchableOpacity onPress={() => { setModal(true); }}>
+                                        <View style={CurrencyStyles.currency}>
+                                            <View style={CurrencyStyles.currencyTitle}>
+                                                <Image style={{ width: 32, height: 32 }} source={{ uri: CryptoImage[`BTC`] }} />
+                                                <Text style={CurrencyStyles.currencyTitleText}>Bitcoin</Text>
+                                            </View>
+                                            <LineChart
+                                                data={{
+                                                    labels: [`16.09`, `16.10`, `16.11`, `09.12`, `15.12`, `13:25`],
+                                                    datasets: [
+                                                        {
+                                                            data: [
+                                                                currency.quote.USD.percent_change_90d,
+                                                                currency.quote.USD.percent_change_60d,
+                                                                currency.quote.USD.percent_change_30d,
+                                                                currency.quote.USD.percent_change_7d,
+                                                                currency.quote.USD.percent_change_24h,
+                                                                currency.quote.USD.percent_change_1h,
+                                                                40,
+                                                                50,
+                                                                30,
+                                                                100,
+                                                                200,
+                                                                60,
+                                                                80
+                                                            ]
+                                                        }
+                                                    ]
+                                                }}
+                                                width={140} // from react-native
+                                                height={52}
+                                                withHorizontalLines={false}
+                                                withVerticalLines={false}
+                                                withDots={false}
+                                                withVerticalLabels={false}
+                                                withHorizontalLabels={false}
+                                                yAxisInterval={1}
+                                                withOuterLines={false}
+                                                chartConfig={{
+                                                    backgroundColor: "#1a1a1a",
+                                                    backgroundGradientFrom: "#1a1a1a",
+                                                    backgroundGradientTo: "#1a1a1a",
+                                                    decimalPlaces: 2, // optional, defaults to 2dp
+                                                    color: (opacity = 1) => `rgba(80, 204, 92, ${0.5})`,
+                                                }}
+                                                bezier
+                                                style={{
+                                                    paddingTop: 4,
+                                                    paddingRight: 15,
+                                                    borderRadius: 16
+                                                }}
+                                            />
+                                            {/* <View style={CurrencyStyles.currencyPrice}>
+                                                <Text style={CurrencyStyles.currencyPriceText}>43012$</Text>
+                                            </View> */}
+                                        </View>
+                                    </TouchableOpacity>
                                 </ScrollView>
                         }
                     </View>
