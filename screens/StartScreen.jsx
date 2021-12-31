@@ -2,6 +2,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, TouchableHighlight, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
@@ -19,8 +20,18 @@ import { StartContext } from './context/startContext.js';
 
 const StartScreen = () => {
     const [fonts, setFonts] = useState(false); 
-    const { showSignIn, showSignUp, setShowSignIn, setShowSignUp, setShowSignInGoogle } = useContext(StartContext); 
+    const { showSignIn, showSignUp, setShowSignIn, setShowSignInGoogle } = useContext(StartContext); 
     const navigation = useNavigation();
+
+    const handleCheckAuthUser = async () => {
+        let storage = await AsyncStorage.getItem('user');
+        storage = JSON.parse(storage);
+        if (storage.length <= 0) {
+            setShowSignIn(true);
+        } else {
+            navigation.navigate('Main');
+        }
+    }
 
     useEffect(async () => {
         const res = await heandlerFontsLoad();
@@ -36,10 +47,10 @@ const StartScreen = () => {
                     <Image style={Styles.conatinerImage} source={require('../assets/image/Logo.png')} />
                     <Text style={Styles.titleText}>Твой шанс изменить своё будущее, не открывай зонт, лучше лови крипту!</Text>
                     <Text style={Styles.titleText}>Cryptocloud — добывай столько крипты, сколько падает капель во время дождя!</Text>
-                    <TouchableHighlight style={Styles.buttonSignIn} onPress={() => { setShowSignIn(true); }}>
+                    <TouchableHighlight style={Styles.buttonSignIn} onPress={() => handleCheckAuthUser()}>
                         <Text style={Styles.signInText}>Войти</Text>
                     </TouchableHighlight>
-                    <TouchableHighlight style={Styles.buttonSignUp} onPress={() => { setShowSignUp(true) }}>
+                    <TouchableHighlight style={Styles.buttonSignUp} onPress={() => { navigation.navigate('Welcome') }}>
                         <Text style={Styles.signUpText}>Создать аккаунт</Text>
                     </TouchableHighlight>
                     <TouchableHighlight style={Styles.buttonSignGoogle} onPress={() => { setShowSignInGoogle(true); navigation.navigate('Main') }}>

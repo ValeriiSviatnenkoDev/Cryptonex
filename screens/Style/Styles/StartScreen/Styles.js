@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { handlerHeight } from '../../Utils/handlerFunction.js';
 
-const StartScreenStyles = StyleSheet.create({
+const Styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         backgroundColor: '#1a1a1a',
@@ -103,4 +103,4 @@ const StartScreenStyles = StyleSheet.create({
 
 })
 
-export default StartScreenStyles;
+export default Styles;

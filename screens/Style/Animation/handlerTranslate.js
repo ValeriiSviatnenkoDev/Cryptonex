@@ -11,7 +11,7 @@ export const translateToBottom = (anim) => {
 
 export const translateToTop = (anim) => {
     Animated.timing(anim, {
-        toValue: 130,
+        toValue: 70,
         duration: 650,
         useNativeDriver: false
     }).start();
