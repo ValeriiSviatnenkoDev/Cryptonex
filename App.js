@@ -1,7 +1,7 @@
 /* React */
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,16 +28,12 @@ import { ProfileProvider } from './screens/Profile/profileContext.js';
 const Stack = createStackNavigator();
 
 const App = () => {
-  const checkUserTheme = async () => {
-    return await AsyncStorage.getItem('theme');
-  }
-
   return (
       <StartProvider>
         <MainProvider>
           <ProfileProvider>
-            <NavigationContainer>
-              <Stack.Navigator screenOptions={checkUserTheme() ? { headerStyle: { backgroundColor: '#ededed' }, headerTitleAlign: 'left', headerTitleStyle: { fontSize: 21, fontFamily: 'SanFrancisco-Bold' } } : { headerStyle: { backgroundColor: '#1a1a1a' }, headerTitleAlign: 'left', headerTitleStyle: { fontSize: 21, fontFamily: 'SanFrancisco-Bold' } }}>
+            <NavigationContainer theme={DefaultTheme}>
+              <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: '#1a1a1a' }, headerTitleAlign: 'left', headerTitleStyle: { fontSize: 21, fontFamily: 'SanFrancisco-Bold' } }}>
                 <Stack.Screen name="Home" component={StartScreen} options={{ headerTitle: (props) => <LogoCompany {...props} /> }} />
                 <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Name" component={NameScreen} options={{ headerShown: false }} />

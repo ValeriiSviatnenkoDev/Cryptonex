@@ -20,7 +20,7 @@ import { StartContext } from './context/startContext.js';
 
 const StartScreen = () => {
     const [fonts, setFonts] = useState(false); 
-    const { showSignIn, showSignUp, setShowSignIn, setShowSignUp, setShowSignInGoogle } = useContext(StartContext); 
+    const { showSignIn, showSignUp, setShowSignIn, setShowSignInGoogle } = useContext(StartContext); 
     const navigation = useNavigation();
 
     const handleCheckAuthUser = async () => {
@@ -30,12 +30,6 @@ const StartScreen = () => {
             setShowSignIn(true);
         } else {
             navigation.navigate('Main');
-        }
-
-        if(await AsyncStorage.getItem('theme')) {
-            console.log('hello');
-        } else {
-            console.log('world!');
         }
     }
 
