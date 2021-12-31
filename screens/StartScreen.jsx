@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
+import * as Google from 'expo-google-app-auth';
 
 /* Styles & Utils */
 import Styles from './Style/Styles/StartScreen/Styles.js';
@@ -19,8 +20,10 @@ import RegisterAccount from './Register/Register';
 import { StartContext } from './context/startContext.js';
 
 const StartScreen = () => {
-    const [fonts, setFonts] = useState(false); 
-    const { showSignIn, showSignUp, setShowSignIn, setShowSignInGoogle } = useContext(StartContext); 
+    const [fonts, setFonts] = useState(false);
+    const [googleData, setGoogleData] = useState({});
+
+    const { showSignIn, showSignUp, setShowSignIn } = useContext(StartContext);
     const navigation = useNavigation();
 
     const handleCheckAuthUser = async () => {
@@ -31,6 +34,36 @@ const StartScreen = () => {
         } else {
             navigation.navigate('Main');
         }
+    }
+
+    const handleGoogleSignIn = async () => {
+        const config = {
+            iosClientId: '1092714447173-cu978qu3r0tab4v8vl6l3s2mshgdgqk0.apps.googleusercontent.com',
+            androidClientId: '1092714447173-r5gleu7g0rqn840ndbnhqautmnuug4q1.apps.googleusercontent.com',
+            scopes: ['profile', 'email']
+        }
+
+        Google.logInAsync(config).then((result) => {
+            const { type, user } = result;
+            if (type == 'success') {
+                const { email, name } = user;
+
+                const data = {
+                    userEmail: email,
+                    userName: name,
+                    userPassword: `googleAuth${Math.random * 100}${Math.random * 100}`
+                }
+
+                setGoogleData(data);
+            } else {
+                console.log('Google SignIn was cancelled!');
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+
+        await AsyncStorage.setItem('user', JSON.stringify(googleData))
+        navigation.navigate('Main');
     }
 
     useEffect(async () => {
@@ -53,7 +86,7 @@ const StartScreen = () => {
                     <TouchableHighlight style={Styles.buttonSignUp} onPress={() => { navigation.navigate('Welcome') }}>
                         <Text style={Styles.signUpText}>Создать аккаунт</Text>
                     </TouchableHighlight>
-                    <TouchableHighlight style={Styles.buttonSignGoogle} onPress={() => { setShowSignInGoogle(true); navigation.navigate('Main') }}>
+                    <TouchableHighlight style={Styles.buttonSignGoogle} onPress={() => { handleGoogleSignIn() }}>
                         <>
                             <Text style={Styles.signInGoogle}>Войти с</Text>
                             <Image style={Styles.imageGoogle} source={require('../assets/image/GoogleImage.png')} />
