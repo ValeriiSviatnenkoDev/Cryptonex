@@ -5,10 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /* Expo */
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 /* Styles & Utils */
-import ThemeStyles from '../../Style/Styles/Customization/ThemeStyles.js';
+import LangStyles from '../../Style/Styles/Customization/LangStyles.js';
 
 const ChoiseLang = () => {
     const navigation = useNavigation();
@@ -20,12 +20,12 @@ const ChoiseLang = () => {
     }
 
     return (
-        <View style={ThemeStyles.mainContainer}>
-            <View style={ThemeStyles.containerContent}>
-                <Image style={ThemeStyles.themeCompanyImage} source={require('../../../assets/image/Logo.png')} />
-                <Image style={ThemeStyles.themeImage} source={require('../../../assets/image/langCustom.png')} />
-                <Text style={ThemeStyles.themeText}>Тему определили, логин тоже, что-то я забыл...</Text>
-                <Text style={ThemeStyles.themeText}>Точно, приступим к выбору языка приложения, можем продолжить на русском, можем сменить на украинский или на английский, как хочешь.</Text>
+        <View style={LangStyles.mainContainer}>
+            <View style={LangStyles.containerContent}>
+                <Image style={LangStyles.langCompanyImage} source={require('../../../assets/image/Logo.png')} />
+                <Image style={LangStyles.langImage} source={require('../../../assets/image/langCustom.png')} />
+                <Text style={LangStyles.langText}>Тему определили, логин тоже, что-то я забыл...</Text>
+                <Text style={LangStyles.langText}>Точно, приступим к выбору языка приложения, можем продолжить на русском, можем сменить на украинский или на английский, как хочешь.</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => {
                         if (switchLang == 'ru') {

@@ -13,7 +13,7 @@ const DarkTheme = {
     },
 }
 
-const WhiteTheme = {
+const LightTheme = {
     color: {
         defaultText: 'black',
         themeText: '#46b350',

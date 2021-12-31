@@ -78,7 +78,7 @@ const NameScreen = () => {
                     <Formik initialValues={{ userName: '' }} validationSchema={CheckLogin} onSubmit={values => handleCheckLogin(values)}>
                         {({ errors, handleChange, handleSubmit, values }) => (
                             <>
-                                <TextInput style={NameStyles.nameInput} onChangeText={handleChange('userName')} value={values.userName} placeholder="Необычный логин..." placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
+                                <TextInput style={NameStyles.nameInput} onChangeText={handleChange('userName')} value={values.userName} placeholder="Необычный логин..." placeholderTextColor={'rgba(70, 179, 80, 0.6)'} />
                                 <AntDesign name="arrowright" size={40} color="#46b350" style={{ marginBottom: 40 }} onPress={() => {
                                     handleSubmit();
                                     if (errors.userName) {

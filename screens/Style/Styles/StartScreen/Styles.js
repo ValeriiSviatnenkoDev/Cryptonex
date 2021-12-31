@@ -1,10 +1,15 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { handlerHeight } from '../../Utils/handlerFunction.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const StartScreenStyles = StyleSheet.create({
+const checkUserTheme = async () => {
+    return await AsyncStorage.getItem('theme');
+}
+
+const Styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: '#1a1a1a',
+        backgroundColor: checkUserTheme() ? '#ededed' : '#1a1a1a',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -13,7 +18,7 @@ const StartScreenStyles = StyleSheet.create({
         width: Dimensions.get('window').width - 40,
         height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 50) : Dimensions.get('window').height - 100,
 
-        backgroundColor: '#161616',
+        backgroundColor: checkUserTheme() ? '#d1d1d1' : '#161616',
         borderRadius: 28,
 
         justifyContent: 'flex-start',
@@ -24,7 +29,7 @@ const StartScreenStyles = StyleSheet.create({
         margin: 15,
         width: 250,
         height: 45,
-        backgroundColor: "#1a1a1a",
+        backgroundColor: checkUserTheme() ? '#ededed' : '#1a1a1a',
 
         justifyContent: 'center',
         alignItems: 'center'
@@ -33,7 +38,7 @@ const StartScreenStyles = StyleSheet.create({
     buttonSignUp: {
         width: 250,
         height: 45,
-        backgroundColor: "#50cc5c",
+        backgroundColor: checkUserTheme() ? '#46b350' : '#50cc5c',
 
         justifyContent: 'center',
         alignItems: 'center'
@@ -43,7 +48,7 @@ const StartScreenStyles = StyleSheet.create({
         margin: 15,
         width: 250,
         height: 45,
-        backgroundColor: "white",
+        backgroundColor: checkUserTheme() ? '#3d91ff' : 'white',
 
         flexDirection: 'row',
         justifyContent: 'center',
@@ -59,19 +64,19 @@ const StartScreenStyles = StyleSheet.create({
     },
 
     signInText: {
-        color: '#50cc5c',
+        color: checkUserTheme() ? '#46b350' : '#50cc5c',
         fontFamily: 'SanFrancisco-Medium',
         fontSize: 21,
     },
 
     signUpText: {
-        color: '#1a1a1a',
+        color: checkUserTheme() ? '#ededed' : '#1a1a1a',
         fontFamily: 'SanFrancisco-Medium',
         fontSize: 21,
     },
 
     signInGoogle: {
-        color: '#161616',
+        color: checkUserTheme() ? '#ededed' : '#1a1a1a',
         fontFamily: 'SanFrancisco-Medium',
         fontSize: 21,
     },
@@ -80,7 +85,8 @@ const StartScreenStyles = StyleSheet.create({
         width: 30,
         height: 30,
         marginLeft: 5,
-        marginRight: 5
+        marginRight: 5,
+        backgroundColor: checkUserTheme() ? 'white' : null,
     },
 
     titleText: {
@@ -89,7 +95,7 @@ const StartScreenStyles = StyleSheet.create({
         marginBottom: 20,
 
         letterSpacing: 0.5,
-        color: "rgba(255, 255, 255, 0.4)",
+        color: checkUserTheme() ? 'rgba(26, 26, 26, 0.5)' : 'rgba(255, 255, 255, 0.4)',
         fontSize: 17,
         fontFamily: 'SanFrancisco-Medium',
         textAlign: "center"
@@ -97,10 +103,10 @@ const StartScreenStyles = StyleSheet.create({
 
     companyYear: {
         marginTop: 150,
-        color: 'rgba(255, 255, 255, 0.7)',
+        color: checkUserTheme() ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.7)',
         fontFamily: 'SanFrancisco-Medium'
     },
 
 })
 
-export default StartScreenStyles;
+export default Styles;

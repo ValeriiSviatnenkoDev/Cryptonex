@@ -2,6 +2,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, TouchableHighlight, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
@@ -22,6 +23,22 @@ const StartScreen = () => {
     const { showSignIn, showSignUp, setShowSignIn, setShowSignUp, setShowSignInGoogle } = useContext(StartContext); 
     const navigation = useNavigation();
 
+    const handleCheckAuthUser = async () => {
+        let storage = await AsyncStorage.getItem('user');
+        storage = JSON.parse(storage);
+        if (storage.length <= 0) {
+            setShowSignIn(true);
+        } else {
+            navigation.navigate('Main');
+        }
+
+        if(await AsyncStorage.getItem('theme')) {
+            console.log('hello');
+        } else {
+            console.log('world!');
+        }
+    }
+
     useEffect(async () => {
         const res = await heandlerFontsLoad();
         setFonts(res);
@@ -36,7 +53,7 @@ const StartScreen = () => {
                     <Image style={Styles.conatinerImage} source={require('../assets/image/Logo.png')} />
                     <Text style={Styles.titleText}>Твой шанс изменить своё будущее, не открывай зонт, лучше лови крипту!</Text>
                     <Text style={Styles.titleText}>Cryptocloud — добывай столько крипты, сколько падает капель во время дождя!</Text>
-                    <TouchableHighlight style={Styles.buttonSignIn} onPress={() => { setShowSignIn(true); }}>
+                    <TouchableHighlight style={Styles.buttonSignIn} onPress={() => handleCheckAuthUser()}>
                         <Text style={Styles.signInText}>Войти</Text>
                     </TouchableHighlight>
                     <TouchableHighlight style={Styles.buttonSignUp} onPress={() => { navigation.navigate('Welcome') }}>

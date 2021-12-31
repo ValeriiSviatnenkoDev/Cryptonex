@@ -6,7 +6,7 @@ const checkUserTheme = async () => {
     return await AsyncStorage.getItem('theme');
 }
 
-const WelcomeStyles = StyleSheet.create({
+const LangStyles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         backgroundColor: checkUserTheme() ? '#ededed' : '#1a1a1a',
@@ -26,8 +26,8 @@ const WelcomeStyles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    welcomeText: {
-        width: Dimensions.get('window').width - 60,
+    langText: {
+        width: Dimensions.get('window').width - 80,
 
         textAlign: 'center',
         color: checkUserTheme() ? 'rgba(26, 26, 26, 0.5)' : 'rgba(255, 255, 255, 0.4)',
@@ -35,7 +35,7 @@ const WelcomeStyles = StyleSheet.create({
         fontSize: 16
     },
 
-    welcomeCompanyImage: {
+    langCompanyImage: {
         width: 360,
         height: 70,
         marginTop: 20,
@@ -43,10 +43,22 @@ const WelcomeStyles = StyleSheet.create({
         aspectRatio: 5
     },
 
-    welcomeImage: {
-        width: 120,
-        height: 150
-    }
+    langImage: {
+        width: 170,
+        height: 180
+    },
+
+    langInput: {
+        width: 225,
+        height: 40,
+
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        borderBottomWidth: 2,
+        borderColor: checkUserTheme() ? '#46b350' : '#50cc5c',
+        color: checkUserTheme() ? 'rgba(26, 26, 26, 0.5)' : 'rgba(255, 255, 255, 1)',
+
+        fontFamily: 'SanFrancisco-Medium',
+    },
 })
 
-export default WelcomeStyles;
+export default LangStyles;
