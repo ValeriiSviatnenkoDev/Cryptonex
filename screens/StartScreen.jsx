@@ -39,7 +39,7 @@ const StartScreen = () => {
                     <TouchableHighlight style={Styles.buttonSignIn} onPress={() => { setShowSignIn(true); }}>
                         <Text style={Styles.signInText}>Войти</Text>
                     </TouchableHighlight>
-                    <TouchableHighlight style={Styles.buttonSignUp} onPress={() => { setShowSignUp(true) }}>
+                    <TouchableHighlight style={Styles.buttonSignUp} onPress={() => { navigation.navigate('Welcome') }}>
                         <Text style={Styles.signUpText}>Создать аккаунт</Text>
                     </TouchableHighlight>
                     <TouchableHighlight style={Styles.buttonSignGoogle} onPress={() => { setShowSignInGoogle(true); navigation.navigate('Main') }}>
