@@ -97,6 +97,7 @@ function Main() {
 
     socket.on('UpdateCurrency', (arg) => {
         setCrypt(arg.data);
+        console.log(arg.data[1]);
     })
 
     useEffect(() => {
@@ -251,7 +252,7 @@ function Main() {
                                 :
                                 <ScrollView showsVerticalScrollIndicator={false}>
                                     {
-                                        crypt.filter(x => x.quote.USD.price > 5000).map((cr, id) => (
+                                        crypt.filter(x => x.quote.USD.price > 2000).map((cr, id) => (
                                             <TouchableOpacity key={id} onPress={() => { setModal(true); setCurrency(cr); }}>
                                                 <View style={CurrencyStyles.currency}>
                                                     <View style={CurrencyStyles.currencyTitle}>
@@ -259,7 +260,7 @@ function Main() {
                                                             <Image style={{ width: 26, height: 26 }} source={{ uri: CryptoImage[`${cr.symbol}`] }} />
                                                             <Text style={CurrencyStyles.currencyTitleText}>{cr.name.split(' ').length < 3 ? cr.name : cr.name.split(' ').slice(0, -1).join(' ')}</Text>
                                                         </View>
-                                                        <Text style={{ color: 'white', paddingRight: 15, }}>{cr.quote.USD.price.toFixed(2)}</Text>
+                                                        <Text style={[CurrencyStyles.currencyText, { fontSize: 13.5, paddingRight: 15 }]}>{cr.quote.USD.price.toFixed(2)}</Text>
                                                     </View>
                                                     <LineChart
                                                         data={{

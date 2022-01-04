@@ -118,7 +118,10 @@ const CryptoImage = {
     TBTC: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5776.png',
     PUNK: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11621.png',
     WSOHM: 'https://i.imgur.com/BIxldto.png',
-    BTCK: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11134.png'
+    BTCK: 'https://s2.coinmarketcap.com/static/img/coins/64x64/11134.png',
+    YFII: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5957.png',
+    aEth: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8100.png',
+    mAMZN: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8016.png'
 }
 
 export default CryptoImage;
