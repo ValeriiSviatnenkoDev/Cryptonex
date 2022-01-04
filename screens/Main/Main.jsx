@@ -95,15 +95,15 @@ function Main() {
         setFonts(true);
     }
 
-    socket.on('UpdateCurrency', (arg) => {
-        setCrypt(arg.data);
-    })
-
     useEffect(() => {
         Dimensions.addEventListener('change', ({ window: { width, height } }) => {
             if (height > width) {
                 ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
             }
+        })
+
+        socket.on('UpdateCurrency', (arg) => {
+            setCrypt(arg.data);
         })
 
         fontsLoad();
@@ -251,7 +251,7 @@ function Main() {
                                 :
                                 <ScrollView showsVerticalScrollIndicator={false}>
                                     {
-                                        crypt.filter(x => x.quote.USD.price > 14000).map((cr, id) => (
+                                        crypt.filter(x => x.quote.USD.price > 5000).map((cr, id) => (
                                             <TouchableOpacity key={id} onPress={() => { setModal(true); setCurrency(cr); }}>
                                                 <View style={CurrencyStyles.currency}>
                                                     <View style={CurrencyStyles.currencyTitle}>
@@ -302,7 +302,7 @@ function Main() {
                                                             borderRadius: 16
                                                         }}
                                                     />
-                                                    <View style={{ flexDirection: 'row', marginBottom: 10, alignItems: 'center'  }}>
+                                                    <View style={{ flexDirection: 'row', marginBottom: 10, alignItems: 'center' }}>
                                                         <Text style={[CurrencyStyles.currencyText, { fontSize: 13.5 }]}>Balance: 0.0212</Text>
                                                         <Text style={[CurrencyStyles.currencyText, { color: 'grey', paddingLeft: 5 }]}>{cr.symbol}</Text>
                                                     </View>
