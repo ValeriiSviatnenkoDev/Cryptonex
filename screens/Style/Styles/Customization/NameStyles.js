@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { handlerHeight } from '../../Utils/handlerFunction.js';
 
-const RegisterStyles = StyleSheet.create({
+const NameStyles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         backgroundColor: '#1a1a1a',
@@ -21,16 +21,16 @@ const RegisterStyles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    registerText: {
-        width: Dimensions.get('window').width - 90,
+    nameText: {
+        width: Dimensions.get('window').width - 80,
 
         textAlign: 'center',
-        color: 'rgba(255, 255, 255, 0.4)',
+        color: 'white',
         fontFamily: 'SanFrancisco-Medium',
-        fontSize: 15
+        fontSize: 16
     },
 
-    registerCompanyImage: {
+    nameCompanyImage: {
         width: 360,
         height: 70,
         marginTop: 20,
@@ -38,19 +38,19 @@ const RegisterStyles = StyleSheet.create({
         aspectRatio: 5
     },
 
-    registerImage: {
-        width: 150,
-        height: 160
+    nameImage: {
+        width: 170,
+        height: 180
     },
 
-    registerInput: {
+    nameInput: {
         width: 225,
         height: 40,
 
         backgroundColor: 'rgba(255, 255, 255, 0)',
         borderBottomWidth: 2,
-        borderColor: '#50cc5c',
-        color: 'rgba(255, 255, 255, 1)',
+        borderColor: '#46b350',
+        color: 'white',
 
         fontFamily: 'SanFrancisco-Medium',
     },
@@ -84,4 +84,4 @@ const RegisterStyles = StyleSheet.create({
     }
 })
 
-export default RegisterStyles;
+export default NameStyles;

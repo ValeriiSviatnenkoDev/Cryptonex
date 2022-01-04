@@ -6,7 +6,7 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
-import { FontAwesome, Feather, MaterialIcons } from '@expo/vector-icons';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 
 /* Styles */

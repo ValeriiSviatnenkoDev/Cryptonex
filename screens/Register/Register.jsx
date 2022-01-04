@@ -1,9 +1,12 @@
 /* React */
-import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, TextInput, TouchableHighlight, View, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Text, TextInput, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 /* Expo */
 import AppLoading from 'expo-app-loading';
+import { AntDesign } from '@expo/vector-icons';
 
 /* Other */
 import { Formik } from 'formik';
@@ -20,20 +23,29 @@ import { heandlerFontsLoad } from '../Style/Utils/handleLoadFonts.js';
 import RegisterError from './components/RegisterError.jsx';
 
 /* Context */
-import { StartContext, StartProvider } from '../context/startContext.js';
+import { StartProvider } from '../context/startContext.js';
 
 const RegisterAccount = () => {
-    const { showSignUp, setShowSignUp } = useContext(StartContext)
-
     const [fonts, setFonts] = useState(false);
     const [errorModal, setModal] = useState(false);
     const [errorText, setError] = useState('');
 
-    async function submitForm(args) {
+    const navigation = useNavigation();
+
+    const submitForm = async (args) => {
+        let userName = await AsyncStorage.getItem('username');
+        userName = JSON.parse(userName);
+
+        const data = { 
+            userEmail: args.userEmail,
+            userPassword: args.userPassword,
+            userName: userName.userName
+         };
+
         const response = await fetch("https://arcane-thicket-38880.herokuapp.com/user-register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(args)
+            body: JSON.stringify(data)
         });
 
         const jsonData = await response.json();
@@ -46,6 +58,9 @@ const RegisterAccount = () => {
             }, 1500);
             return;
         }
+
+        await AsyncStorage.setItem('user', JSON.stringify(jsonData.user))
+        navigation.navigate('Home');
     }
 
     useEffect(async () => {
@@ -58,60 +73,45 @@ const RegisterAccount = () => {
     } else {
         return (
             <StartProvider>
-                <RegisterError errorModal={errorModal} errorText={errorText} />
+                <View style={RegisterStyles.mainContainer}>
+                    <View style={RegisterStyles.containerContent}>
+                        <RegisterError errorModal={errorModal} errorText={errorText} />
 
-                <Modal animationType="slide" transparent={true} visible={showSignUp} onRequestClose={() => { setShowSignUp(false) }}>
-                    <View style={RegisterStyles.centeredView}>
-                        <View style={RegisterStyles.modalView}>
-                            <Image style={RegisterForm.conatinerImage} source={require('../../assets/image/Logo.png')} />
-                            <Text style={RegisterForm.titleText}>Начните формировать свой криптовалютный портфель</Text>
-                            <Formik initialValues={{ userName: '', userEmail: '', userPassword: '' }} validationSchema={SignUpSchema} onSubmit={values => submitForm(values)}>
-                                {({ errors, handleChange, handleSubmit, values }) => (
-                                    <View>
-                                        <TextInput style={RegisterForm.containerInput} onChangeText={handleChange('userName')} value={values.userName} placeholder="Логин" placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
-                                        <TextInput style={RegisterForm.containerInput} onChangeText={handleChange('userEmail')} value={values.userEmail} placeholder="Эл. почта" placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
-                                        <TextInput secureTextEntry={true} style={RegisterForm.containerInput} onChangeText={handleChange('userPassword')} value={values.userPassword} placeholder="Пароль" placeholderTextColor={'rgba(80, 204, 92, 0.3)'} />
-                                        <TouchableHighlight style={RegisterForm.containerButtonRegister} onPress={() => {
-                                            handleSubmit();
-                                            if (errors.userName) {
-                                                setModal(true);
-                                                setError('Введите другой логин, минимум 4 символа!');
-                                                setTimeout(() => {
-                                                    setModal(false);
-                                                }, 1500);
-                                                return;
-                                            }
+                        <Image style={RegisterStyles.registerCompanyImage} source={require('../../assets/image/Logo.png')} />
+                        <Image style={RegisterStyles.registerImage} source={require('../../assets/image/regCustomForm.png')} />
+                        <Text style={RegisterStyles.registerText}>Мы на финише, осталось лишь указать электронную почту, а также придумать пароль.</Text>
+                        <Text style={RegisterStyles.registerText}>Задание не из лёгких, но если что я помогу, чем-то...</Text>
+                        <Text style={RegisterStyles.registerText}>Отнесись к этому заданию с ответственностью, от этого зависит будущее нашего убежище! Вроде как...</Text>
+                        <Formik initialValues={{ userEmail: '', userPassword: '' }} validationSchema={SignUpSchema} onSubmit={values => submitForm(values)}>
+                            {({ errors, handleChange, handleSubmit, values }) => (
+                                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                    <TextInput style={RegisterForm.containerInput} onChangeText={handleChange('userEmail')} value={values.userEmail} placeholder="Эл. почта" placeholderTextColor={'rgba(70, 179, 80, 0.6)'}/>
+                                    <TextInput secureTextEntry={true} style={RegisterForm.containerInput} onChangeText={handleChange('userPassword')} value={values.userPassword} placeholder="Пароль" placeholderTextColor={'rgba(70, 179, 80, 0.6)'} />
+                                    <AntDesign name="arrowright" size={40} color="#46b350" style={{ marginBottom: 40 }} onPress={() => {
+                                        handleSubmit();
+                                        if (errors.userEmail) {
+                                            setModal(true);
+                                            setError('Введите корректную электронную почту!');
+                                            setTimeout(() => {
+                                                setModal(false);
+                                            }, 1500);
+                                            return;
+                                        }
 
-                                            if (errors.userEmail) {
-                                                setModal(true);
-                                                setError('Введите корректную электронную почту!');
-                                                setTimeout(() => {
-                                                    setModal(false);
-                                                }, 1500);
-                                                return;
-                                            }
-
-                                            if (errors.userPassword) {
-                                                setModal(true);
-                                                setError('Ведённый пароль должен содержать минимум 7 символов!');
-                                                setTimeout(() => {
-                                                    setModal(false);
-                                                }, 1500);
-                                                return;
-                                            }
-                                        }}>
-                                            <Text style={RegisterForm.containerTextInButton}>Погнали</Text>
-                                        </TouchableHighlight>
-                                    </View>
-                                )}
-                            </Formik>
-                            <TouchableHighlight style={RegisterForm.containerButtonBack} onPress={() => { setShowSignUp(false) }}>
-                                <Text style={RegisterForm.containerTextButtonBack}>Вернуться</Text>
-                            </TouchableHighlight>
-                            <Text style={RegisterForm.companyYear}>Cryptonex 2021</Text>
-                        </View>
+                                        if (errors.userPassword) {
+                                            setModal(true);
+                                            setError('Ведённый пароль должен содержать минимум 7 символов!');
+                                            setTimeout(() => {
+                                                setModal(false);
+                                            }, 1500);
+                                            return;
+                                        }
+                                    }} />
+                                </View>
+                            )}
+                        </Formik>
                     </View>
-                </Modal>
+                </View>
             </StartProvider>
         );
     }

@@ -16,7 +16,6 @@ const MainStyles = StyleSheet.create({
         width: Dimensions.get('window').width - 25,
         height: Dimensions.get('window').height < 690 ? handlerHeight(Dimensions.get('window').height, 50) : handlerHeight(Dimensions.get('window').height, 0.9),
 
-        backgroundColor: '#161616',
         borderRadius: 28,
 
     },

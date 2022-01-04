@@ -9,23 +9,26 @@ const CurrencyStyles = StyleSheet.create({
     },  
 
     currency: {
-        margin: 9.5 ,
-        padding: 10,
+        marginTop: 10,
+        marginBottom: 5,
 
-        width: Dimensions.get('window').width - 70,
-        height: 60,
+        width: Dimensions.get('window').width - 30,
+        height: 160,
 
-        backgroundColor: '#1a1a1a',
-        borderRadius: 20,
+        backgroundColor: '#161616',
 
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: 'space-between',
         alignItems: 'center'
     },
 
     currencyTitle: {
-        marginRight: 60,
+        width: 310,
+        paddingTop: 7,
+        paddingBottom: 7,
+
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center'
     },
 
@@ -48,8 +51,13 @@ const CurrencyStyles = StyleSheet.create({
         fontSize: 15,
         fontFamily: 'SanFrancisco-Medium',
         letterSpacing: 0.1
-    }
+    },
 
+    currencyText: {
+        fontSize: 14,
+        color: 'white',
+        fontFamily: 'SanFrancisco-Semibold'
+    }
 })
 
 export default CurrencyStyles;
