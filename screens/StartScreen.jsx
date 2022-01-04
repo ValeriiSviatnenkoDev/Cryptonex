@@ -46,15 +46,16 @@ const StartScreen = () => {
         Google.logInAsync(config).then((result) => {
             const { type, user } = result;
             if (type == 'success') {
-                const { email, name } = user;
+                const { email, name, familyName, givenName } = user;
 
                 const data = {
                     userEmail: email,
                     userName: name,
-                    userPassword: `googleAuth${Math.random * 100}${Math.random * 100}`
+                    userPassword: `${familyName}${givenName}${Math.random * 1000}${Math.random * 1000}`
                 }
 
                 setGoogleData(data);
+                navigation.navigate('Main');
             } else {
                 console.log('Google SignIn was cancelled!');
             }
@@ -62,8 +63,7 @@ const StartScreen = () => {
             console.log(error);
         })
 
-        await AsyncStorage.setItem('user', JSON.stringify(googleData))
-        navigation.navigate('Main');
+        await AsyncStorage.setItem('user', JSON.stringify(googleData));
     }
 
     useEffect(async () => {

@@ -95,6 +95,9 @@ function Main() {
         setFonts(true);
     }
 
+    socket.on('UpdateCurrency', (arg) => {
+        setCrypt(arg.data);
+    })
 
     useEffect(() => {
         Dimensions.addEventListener('change', ({ window: { width, height } }) => {
@@ -102,11 +105,6 @@ function Main() {
                 ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
             }
         })
-
-        socket.on('UpdateCurrency', (arg) => {
-            setCrypt(arg.data);
-        })
-
 
         fontsLoad();
     }, [crypt]);
@@ -251,79 +249,67 @@ function Main() {
                             isLoading ?
                                 <ActivityIndicator style={{ marginTop: 300 }} size="large" color="#49beb7" />
                                 :
-                                <ScrollView>
+                                <ScrollView showsVerticalScrollIndicator={false}>
                                     {
-                                        crypt.filter(x => x.quote.USD.price > 20000).map(cr => (
-                                            <TouchableOpacity key={cr} onPress={() => { setModal(true); setCurrency(cr); }}>
+                                        crypt.filter(x => x.quote.USD.price > 14000).map((cr, id) => (
+                                            <TouchableOpacity key={id} onPress={() => { setModal(true); setCurrency(cr); }}>
                                                 <View style={CurrencyStyles.currency}>
                                                     <View style={CurrencyStyles.currencyTitle}>
-                                                        <Image style={{ width: 32, height: 32 }} source={{ uri: CryptoImage[`${cr.symbol}`] }} />
-                                                        <Text style={CurrencyStyles.currencyTitleText}>{cr.name.split(' ').length < 3 ? cr.name : cr.name.split(' ').slice(0, -1).join(' ')}</Text>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                            <Image style={{ width: 26, height: 26 }} source={{ uri: CryptoImage[`${cr.symbol}`] }} />
+                                                            <Text style={CurrencyStyles.currencyTitleText}>{cr.name.split(' ').length < 3 ? cr.name : cr.name.split(' ').slice(0, -1).join(' ')}</Text>
+                                                        </View>
+                                                        <Text style={{ color: 'white', paddingRight: 15, }}>{cr.quote.USD.price.toFixed(2)}</Text>
                                                     </View>
-                                                    <View style={CurrencyStyles.currencyPrice}>
-                                                        <Text style={CurrencyStyles.currencyPriceText}>${(cr.quote.USD.price).toFixed(2)}</Text>
+                                                    <LineChart
+                                                        data={{
+                                                            labels: [`3m`, `2m`, `m`, `w`, `d`, `h`],
+                                                            datasets: [
+                                                                {
+                                                                    data: [
+                                                                        cr.quote.USD.percent_change_90d,
+                                                                        cr.quote.USD.percent_change_60d,
+                                                                        cr.quote.USD.percent_change_30d,
+                                                                        cr.quote.USD.percent_change_7d,
+                                                                        cr.quote.USD.percent_change_24h,
+                                                                        cr.quote.USD.percent_change_1h
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }}
+                                                        width={280} // from react-native
+                                                        height={70}
+                                                        withHorizontalLines={false}
+                                                        withVerticalLines={false}
+                                                        withDots={false}
+                                                        withVerticalLabels={false}
+                                                        withHorizontalLabels={false}
+                                                        yAxisInterval={1}
+                                                        withOuterLines={false}
+                                                        chartConfig={{
+                                                            backgroundColor: "#161616",
+                                                            backgroundGradientFrom: "#161616",
+                                                            backgroundGradientTo: "#161616",
+                                                            decimalPlaces: 2, // optional, defaults to 2dp
+                                                            color: (opacity = 1) => `rgba(80, 204, 92, ${0.3})`,
+                                                        }}
+                                                        bezier
+                                                        style={{
+                                                            marginLeft: 10,
+                                                            paddingTop: 2,
+                                                            paddingBottom: 2,
+                                                            paddingRight: 10,
+                                                            borderRadius: 16
+                                                        }}
+                                                    />
+                                                    <View style={{ flexDirection: 'row', marginBottom: 10, alignItems: 'center'  }}>
+                                                        <Text style={[CurrencyStyles.currencyText, { fontSize: 13.5 }]}>Balance: 0.0212</Text>
+                                                        <Text style={[CurrencyStyles.currencyText, { color: 'grey', paddingLeft: 5 }]}>{cr.symbol}</Text>
                                                     </View>
                                                 </View>
                                             </TouchableOpacity>
                                         ))
                                     }
-                                    <TouchableOpacity onPress={() => { setModal(true); }}>
-                                        <View style={CurrencyStyles.currency}>
-                                            <View style={CurrencyStyles.currencyTitle}>
-                                                <Image style={{ width: 32, height: 32 }} source={{ uri: CryptoImage[`BTC`] }} />
-                                                <Text style={CurrencyStyles.currencyTitleText}>Bitcoin</Text>
-                                            </View>
-                                            <LineChart
-                                                data={{
-                                                    labels: [`16.09`, `16.10`, `16.11`, `09.12`, `15.12`, `13:25`],
-                                                    datasets: [
-                                                        {
-                                                            data: [
-                                                                currency.quote.USD.percent_change_90d,
-                                                                currency.quote.USD.percent_change_60d,
-                                                                currency.quote.USD.percent_change_30d,
-                                                                currency.quote.USD.percent_change_7d,
-                                                                currency.quote.USD.percent_change_24h,
-                                                                currency.quote.USD.percent_change_1h,
-                                                                40,
-                                                                50,
-                                                                30,
-                                                                100,
-                                                                200,
-                                                                60,
-                                                                80
-                                                            ]
-                                                        }
-                                                    ]
-                                                }}
-                                                width={140} // from react-native
-                                                height={52}
-                                                withHorizontalLines={false}
-                                                withVerticalLines={false}
-                                                withDots={false}
-                                                withVerticalLabels={false}
-                                                withHorizontalLabels={false}
-                                                yAxisInterval={1}
-                                                withOuterLines={false}
-                                                chartConfig={{
-                                                    backgroundColor: "#1a1a1a",
-                                                    backgroundGradientFrom: "#1a1a1a",
-                                                    backgroundGradientTo: "#1a1a1a",
-                                                    decimalPlaces: 2, // optional, defaults to 2dp
-                                                    color: (opacity = 1) => `rgba(80, 204, 92, ${0.5})`,
-                                                }}
-                                                bezier
-                                                style={{
-                                                    paddingTop: 4,
-                                                    paddingRight: 15,
-                                                    borderRadius: 16
-                                                }}
-                                            />
-                                            {/* <View style={CurrencyStyles.currencyPrice}>
-                                                <Text style={CurrencyStyles.currencyPriceText}>43012$</Text>
-                                            </View> */}
-                                        </View>
-                                    </TouchableOpacity>
                                 </ScrollView>
                         }
                     </View>
