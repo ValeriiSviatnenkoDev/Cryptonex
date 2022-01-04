@@ -42,6 +42,7 @@ const AuthAccount = (props) => {
     });
 
     const jsonData = await response.json();
+
     switch (jsonData.status) {
       case false:
         setError(jsonData.error.message);

@@ -95,10 +95,11 @@ function Main() {
         setFonts(true);
     }
 
-    socket.on('UpdateCurrency', (arg) => {
-        setCrypt(arg.data);
-        console.log(arg.data[1]);
-    })
+    async function handleUpdateCurrency() {
+        socket.on('UpdateCurrency', (arg) => {
+            setCrypt(arg.data);
+        })
+    }
 
     useEffect(() => {
         Dimensions.addEventListener('change', ({ window: { width, height } }) => {
@@ -106,9 +107,13 @@ function Main() {
                 ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
             }
         })
-
         fontsLoad();
+    }, []);
+
+    useEffect(() => {
+        handleUpdateCurrency();
     }, [crypt]);
+
 
     if (!fonts) {
         return <AppLoading />
@@ -278,7 +283,7 @@ function Main() {
                                                                 }
                                                             ]
                                                         }}
-                                                        width={280} // from react-native
+                                                        width={450} // from react-native
                                                         height={70}
                                                         withHorizontalLines={false}
                                                         withVerticalLines={false}
@@ -299,6 +304,7 @@ function Main() {
                                                             marginLeft: 10,
                                                             paddingTop: 2,
                                                             paddingBottom: 2,
+                                                            paddingLeft: 30,
                                                             paddingRight: 10,
                                                             borderRadius: 16
                                                         }}

@@ -29,7 +29,7 @@ const StartScreen = () => {
     const handleCheckAuthUser = async () => {
         let storage = await AsyncStorage.getItem('user');
         storage = JSON.parse(storage);
-        if (storage.length <= 0) {
+        if (storage.length < 0) {
             setShowSignIn(true);
         } else {
             navigation.navigate('Main');
